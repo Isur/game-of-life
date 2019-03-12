@@ -3,7 +3,7 @@
     <data>
         <variable
                 name="vm"
-                type="com.adt.game_of_life.viewmodel.MenuViewModel"/>
+                type="com.adt.game_of_life.viewmodel.GameViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -11,14 +11,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".view.activity.MenuActivity">
-
-        <android.support.v7.widget.AppCompatButton
-                android:id="@+id/playButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/play_button_text"
-                android:onClick="@{() -> vm.startGameActivity()}"/>
+            tools:context=".view.activity.GameActivity">
 
     </android.support.constraint.ConstraintLayout>
 
