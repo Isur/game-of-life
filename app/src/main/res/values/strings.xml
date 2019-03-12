@@ -3,4 +3,6 @@
     <string name="play_button_text">PLAY</string>
     <string name="game_activity_title">Game</string>
     <string name="menu_activity_title">Menu</string>
+    <string name="load_button_text">LOAD</string>
+    <string name="load_activity_title">Load</string>
 </resources>

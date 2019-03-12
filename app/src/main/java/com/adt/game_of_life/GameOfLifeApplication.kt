@@ -2,6 +2,7 @@ package com.adt.game_of_life
 
 import android.app.Application
 import com.adt.game_of_life.viewmodel.GameViewModel
+import com.adt.game_of_life.viewmodel.LoadViewModel
 import com.adt.game_of_life.viewmodel.MenuViewModel
 import org.koin.android.ext.android.startKoin
 import org.koin.android.viewmodel.ext.koin.viewModel
@@ -21,6 +22,7 @@ class GameOfLifeApplication : Application() {
         return module {
             viewModel { MenuViewModel() }
             viewModel { GameViewModel() }
+            viewModel { LoadViewModel() }
         }
     }
 }
