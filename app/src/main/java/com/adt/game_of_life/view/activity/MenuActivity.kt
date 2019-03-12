@@ -28,4 +28,9 @@ class MenuActivity : AppCompatActivity() {
             activity?.let { startActivity(it) }
         })
     }
+
+    override fun onBackPressed() {
+        finishAffinity()
+        super.onBackPressed()
+    }
 }
