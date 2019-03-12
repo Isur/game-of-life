@@ -1,49 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
                 name="vm"
                 type="com.adt.game_of_life.viewmodel.MenuViewModel"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".view.activity.MenuActivity">
+            android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatButton
-                android:id="@+id/playButton"
+        <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/play_button_text"
-                android:onClick="@{() -> vm.startGameActivity()}"/>
+                android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatButton
-                android:id="@+id/loadButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/load_button_text"
-                app:layout_constraintTop_toBottomOf="@id/playButton"
-                android:onClick="@{() -> vm.startLoadActivity()}"/>
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    tools:context=".view.activity.MenuActivity" android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.AppCompatButton
-                android:id="@+id/settingsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_button_text"
-                app:layout_constraintTop_toBottomOf="@id/loadButton"
-                android:onClick="@{() -> vm.startSettingsActivity()}"/>
+                <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/playButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/play_button_text"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/big_margin"
+                        android:onClick="@{() -> vm.startGameActivity()}"/>
 
-        <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aboutButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/about_button_text"
-                app:layout_constraintTop_toBottomOf="@id/settingsButton"
-                android:onClick="@{() -> vm.startAboutActivity()}"/>
+                <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/loadButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/load_button_text"
+                        app:layout_constraintTop_toBottomOf="@id/playButton"
+                        android:layout_marginTop="@dimen/big_margin"
+                        android:onClick="@{() -> vm.startLoadActivity()}"/>
 
-    </android.support.constraint.ConstraintLayout>
+                <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/settingsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_button_text"
+                        app:layout_constraintTop_toBottomOf="@id/loadButton"
+                        android:layout_marginTop="@dimen/big_margin"
+                        android:onClick="@{() -> vm.startSettingsActivity()}"/>
+
+                <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/aboutButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_button_text"
+                        app:layout_constraintTop_toBottomOf="@id/settingsButton"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="@dimen/big_margin"
+                        android:layout_marginBottom="@dimen/big_margin"
+                        android:onClick="@{() -> vm.startAboutActivity()}"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 
 </layout>
