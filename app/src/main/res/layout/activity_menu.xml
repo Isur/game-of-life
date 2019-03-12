@@ -28,6 +28,14 @@
                 app:layout_constraintTop_toBottomOf="@id/playButton"
                 android:onClick="@{() -> vm.startLoadActivity()}"/>
 
+        <android.support.v7.widget.AppCompatButton
+                android:id="@+id/settingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_button_text"
+                app:layout_constraintTop_toBottomOf="@id/loadButton"
+                android:onClick="@{() -> vm.startSettingsActivity()}"/>
+
     </android.support.constraint.ConstraintLayout>
 
 </layout>

@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import com.adt.game_of_life.view.activity.GameActivity
 import com.adt.game_of_life.view.activity.LoadActivity
+import com.adt.game_of_life.view.activity.SettingsActivity
 import pl.grajek.actions.model.SingleLiveEvent
 import pl.grajek.actions.model.dto.ActivityStartModel
 
@@ -21,5 +22,9 @@ class MenuViewModel : ViewModel() {
 
     fun startLoadActivity() {
         startActivity(LoadActivity::class.java)
+    }
+
+    fun startSettingsActivity() {
+        startActivity(SettingsActivity::class.java)
     }
 }

@@ -5,4 +5,6 @@
     <string name="menu_activity_title">Menu</string>
     <string name="load_button_text">LOAD</string>
     <string name="load_activity_title">Load</string>
+    <string name="settings_activity_title">Settings</string>
+    <string name="settings_button_text">SETTINGS</string>
 </resources>
