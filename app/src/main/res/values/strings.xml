@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Game of Life</string>
+    <string name="play_button_text">PLAY</string>
+    <string name="game_activity_title">Game</string>
+    <string name="menu_activity_title">Menu</string>
+    <string name="load_button_text">LOAD</string>
+    <string name="load_activity_title">Load</string>
+    <string name="settings_activity_title">Settings</string>
+    <string name="settings_button_text">SETTINGS</string>
+    <string name="about_activity_title">About</string>
+    <string name="about_button_text">ABOUT</string>
 </resources>
