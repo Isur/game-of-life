@@ -37,6 +37,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    // Evemt logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
     // Dependency injection
     implementation 'org.koin:koin-android-viewmodel:1.0.2'
 
