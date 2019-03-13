@@ -1,4 +1,4 @@
-package pl.grajek.actions.model
+package com.adt.game_of_life.model.event
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package pl.grajek.actions.model.dto
+package com.adt.game_of_life.model.dto
 
 import android.os.Bundle
 

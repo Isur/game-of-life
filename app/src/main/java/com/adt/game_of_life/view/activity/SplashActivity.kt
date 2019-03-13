@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import com.adt.game_of_life.R
+import com.adt.game_of_life.model.dto.ActivityStartModel
 import com.adt.game_of_life.util.startActivity
-import pl.grajek.actions.model.dto.ActivityStartModel
 
 class SplashActivity : AppCompatActivity() {
 
