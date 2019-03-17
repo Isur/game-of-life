@@ -1,18 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
                 name="vm"
                 type="com.adt.game_of_life.viewmodel.SettingsViewModel"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".view.activity.SettingsActivity">
+            android:layout_height="wrap_content">
 
-    </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context=".view.activity.SettingsActivity"
+                android:padding="@dimen/standard_margin">
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/liveTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="@string/born_settings_text"/>
+
+            <include
+                    android:id="@+id/aliveNumbers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    layout="@layout/number_picker"
+                    app:layout_constraintTop_toTopOf="@+id/liveTextView"
+                    app:layout_constraintBottom_toBottomOf="@+id/liveTextView"
+                    app:layout_constraintStart_toStartOf="@+id/aliveColorButton"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/deadTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/liveTextView"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="@string/dead_settings_text"
+                    android:layout_marginTop="@dimen/big_margin"/>
+
+            <include
+                    android:id="@+id/deadNumbers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    layout="@layout/number_picker"
+                    app:layout_constraintTop_toTopOf="@+id/deadTextView"
+                    app:layout_constraintBottom_toBottomOf="@+id/deadTextView"
+                    app:layout_constraintStart_toStartOf="@+id/aliveColorButton"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/aliveColorTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/deadTextView"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="@string/alive_color_settings_text"
+                    android:layout_marginTop="@dimen/big_margin"/>
+
+            <Button
+                    android:id="@+id/aliveColorButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintStart_toEndOf="@+id/aliveColorTextView" android:layout_marginLeft="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/aliveColorTextView"
+                    app:layout_constraintBottom_toBottomOf="@+id/aliveColorTextView"
+                    android:layout_marginStart="@dimen/big_margin"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/deadColorTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/aliveColorTextView"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="@dimen/big_margin"
+                    android:text="@string/dead_color_settings_text"/>
+
+            <Button
+                    android:id="@+id/deadColorButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="@+id/deadColorTextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/deadColorTextView"
+                    app:layout_constraintStart_toStartOf="@+id/aliveColorButton"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 
 </layout>

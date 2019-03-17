@@ -9,4 +9,8 @@
     <string name="settings_button_text">SETTINGS</string>
     <string name="about_activity_title">About</string>
     <string name="about_button_text">ABOUT</string>
+    <string name="born_settings_text">Born</string>
+    <string name="dead_settings_text">Dead</string>
+    <string name="alive_color_settings_text">Alive</string>
+    <string name="dead_color_settings_text">Dead</string>
 </resources>

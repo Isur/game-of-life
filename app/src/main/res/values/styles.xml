@@ -9,12 +9,24 @@
         <item name="android:windowBackground">@color/colorPrimaryLight</item>
 
         <item name="buttonStyle">@style/defaultButtonStyle</item>
+        <item name="android:textViewStyle">@style/textViewStyle</item>
     </style>
 
     <style name="defaultButtonStyle" parent="Base.Widget.AppCompat.Button">
         <item name="android:background">@drawable/default_button_shape</item>
         <item name="android:textColor">@color/lightGray</item>
         <item name="android:textSize">@dimen/default_button_text_size</item>
+    </style>
+
+    <style name="textViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="numberSelectTextStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>
