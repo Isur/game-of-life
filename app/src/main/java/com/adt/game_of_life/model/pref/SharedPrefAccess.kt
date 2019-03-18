@@ -8,7 +8,27 @@ import com.adt.game_of_life.util.edit
 class SharedPrefAccess(
     private val context: Application,
     private val serializer: IGameRulesSerializer
-) : IGameRulesPref {
+) : IGameRulesPref, IColorsPref {
+
+    override fun getAliveColor(): Int {
+        return getPrefs().getInt(ALIVE_COLOR, DEFAULT_ALIVE_COLOR)
+    }
+
+    override fun setAliveColor(color: Int) {
+        getPrefs().edit {
+            it.putInt(ALIVE_COLOR, color)
+        }
+    }
+
+    override fun getDeadColor(): Int {
+        return getPrefs().getInt(DEAD_COLOR, DEFAULT_DEAD_COLOR)
+    }
+
+    override fun setDeadColor(color: Int) {
+        getPrefs().edit {
+            it.putInt(DEAD_COLOR, color)
+        }
+    }
 
     private fun getPrefs() = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
 
@@ -36,8 +56,12 @@ class SharedPrefAccess(
         const val SHARED_PREFS = "GAME_OF_LIFE_SHARED_PREFERENCES"
         const val NEIGHBOURS_TO_DIE = "NEIGHBOURS_TO_DIE"
         const val NEIGHBOURS_TO_BORN = "NEIGHBOURS_TO_BORN"
+        const val ALIVE_COLOR = "ALIVE_COLOR"
+        const val DEAD_COLOR = "DEAD_COLOR"
 
         const val DEFAULT_NEIGHBOURS_TO_DIE = "0;1;4;5;6;7;8;"
         const val DEFAULT_NEIGHBOURS_TO_BORN = "3;"
+        const val DEFAULT_ALIVE_COLOR = -1
+        const val DEFAULT_DEAD_COLOR = -16777216
     }
 }
