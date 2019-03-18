@@ -6,6 +6,8 @@ import com.adt.game_of_life.model.pref.IGameRulesPref
 import com.adt.game_of_life.model.pref.SharedPrefAccess
 import com.adt.game_of_life.model.pref.serializer.GameRulesSerializer
 import com.adt.game_of_life.model.pref.serializer.IGameRulesSerializer
+import com.adt.game_of_life.model.setting.GameColors
+import com.adt.game_of_life.model.setting.GameRules
 import com.adt.game_of_life.viewmodel.GameViewModel
 import com.adt.game_of_life.viewmodel.LoadViewModel
 import com.adt.game_of_life.viewmodel.MenuViewModel
@@ -32,6 +34,9 @@ class GameOfLifeApplication : Application() {
             single { SharedPrefAccess(this@GameOfLifeApplication, get()) }
             single<IGameRulesPref> { get<SharedPrefAccess>() }
             single<IColorsPref> { get<SharedPrefAccess>() }
+
+            single { GameRules(get()) }
+            single { GameColors(get()) }
 
             viewModel { MenuViewModel() }
             viewModel { GameViewModel() }
