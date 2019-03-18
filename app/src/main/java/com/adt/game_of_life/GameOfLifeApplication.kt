@@ -31,9 +31,9 @@ class GameOfLifeApplication : Application() {
     private fun getApplicationModule(): Module {
         return module {
             single<IGameRulesSerializer> { GameRulesSerializer() }
-            single { SharedPrefAccess(this@GameOfLifeApplication, get()) }
-            single<IGameRulesPref> { get<SharedPrefAccess>() }
-            single<IColorsPref> { get<SharedPrefAccess>() }
+            single {
+                SharedPrefAccess(this@GameOfLifeApplication, get())
+            } bind IGameRulesPref::class bind IColorsPref::class
 
             single { GameRules(get()) }
             single { GameColors(get()) }
