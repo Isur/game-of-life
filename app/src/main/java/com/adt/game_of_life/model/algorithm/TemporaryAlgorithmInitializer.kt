@@ -1,4 +1,4 @@
-package com.adt.game_of_life.algorithm
+package com.adt.game_of_life.model.algorithm
 
 //TODO: Klasa do usuniecia po dodaniu klasy algorytmu w poprawne miejsce aplikacji
 //Wystaczy wywolac makeGameStep() - otrzymujemy numer kroku i wyglad planszy w consoli
