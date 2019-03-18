@@ -3,6 +3,7 @@ package com.adt.game_of_life.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.v7.app.AppCompatActivity
@@ -41,4 +42,10 @@ fun Button.showColorPicker(context: Context, initialColor: Int, callback: (Int) 
         .setNegativeButton("cancel") { _, _ -> }
         .build()
         .show()
+}
+
+fun SharedPreferences.edit(callback: (SharedPreferences.Editor) -> Unit) {
+    val editor = this.edit()
+    callback(editor)
+    editor.commit()
 }
