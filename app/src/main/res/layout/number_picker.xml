@@ -10,7 +10,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/secondCheckBox"/>
+            app:layout_constraintEnd_toStartOf="@id/secondCheckBox"
+            android:saveEnabled="false"/>
 
     <CheckBox
             android:id="@+id/secondCheckBox"
@@ -18,7 +19,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/firstCheckBox"
-            app:layout_constraintEnd_toStartOf="@id/thirdCheckBox"/>
+            app:layout_constraintEnd_toStartOf="@id/thirdCheckBox"
+            android:saveEnabled="false"/>
 
     <CheckBox
             android:id="@+id/thirdCheckBox"
@@ -26,7 +28,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/secondCheckBox"
-            app:layout_constraintEnd_toStartOf="@id/fourthCheckBox"/>
+            app:layout_constraintEnd_toStartOf="@id/fourthCheckBox"
+            android:saveEnabled="false"/>
 
     <CheckBox
             android:id="@+id/fourthCheckBox"
@@ -34,7 +37,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/thirdCheckBox"
-            app:layout_constraintEnd_toStartOf="@id/fifthCheckBox"/>
+            app:layout_constraintEnd_toStartOf="@id/fifthCheckBox"
+            android:saveEnabled="false"/>
 
 
     <CheckBox
@@ -43,7 +47,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/fourthCheckBox"
-            app:layout_constraintEnd_toStartOf="@id/sixthCheckBox"/>
+            app:layout_constraintEnd_toStartOf="@id/sixthCheckBox"
+            android:saveEnabled="false"
+    />
 
     <CheckBox
             android:id="@+id/sixthCheckBox"
@@ -51,7 +57,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/fifthCheckBox"
-            app:layout_constraintEnd_toStartOf="@id/seventhCheckBox"/>
+            app:layout_constraintEnd_toStartOf="@id/seventhCheckBox"
+            android:saveEnabled="false"/>
 
 
     <CheckBox
@@ -60,7 +67,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/sixthCheckBox"
-            app:layout_constraintEnd_toStartOf="@id/eightCheckBox"/>
+            app:layout_constraintEnd_toStartOf="@id/eightCheckBox"
+            android:saveEnabled="false"/>
 
 
     <CheckBox
@@ -69,7 +77,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/seventhCheckBox"
-            app:layout_constraintEnd_toStartOf="@id/ninthCheckBox"/>
+            app:layout_constraintEnd_toStartOf="@id/ninthCheckBox"
+            android:saveEnabled="false"/>
 
 
     <CheckBox
@@ -78,7 +87,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/eightCheckBox"/>
+            app:layout_constraintStart_toEndOf="@id/eightCheckBox"
+            android:saveEnabled="false"/>
 
     <TextView
             android:layout_width="0dp"
