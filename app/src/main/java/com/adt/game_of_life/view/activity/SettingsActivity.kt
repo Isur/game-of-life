@@ -25,28 +25,37 @@ class SettingsActivity : BackActivity() {
 
         setTitle(R.string.settings_activity_title)
 
+        setupView()
         setListeners()
     }
 
     private fun setListeners() {
         aliveColorButton.setOnClickListener {
-            aliveColorButton.showColorPicker(this, -3830785) {
-
+            aliveColorButton.showColorPicker(this, viewModel.gameColors.aliveColor) {
+                viewModel.gameColors.aliveColor = it
             }
         }
 
         deadColorButton.setOnClickListener {
-            deadColorButton.showColorPicker(this, -3830785) {
-
+            deadColorButton.showColorPicker(this, viewModel.gameColors.deadColor) {
+                viewModel.gameColors.deadColor = it
             }
         }
 
         setListeners(aliveNumbers as ConstraintLayout) { isChecked, i ->
-            Timber.e("$i : $isChecked")
+            Timber.e("born : $isChecked : $i")
+            if (isChecked)
+                viewModel.gameRules.addNeighbourToBorn(i)
+            else
+                viewModel.gameRules.removeNeighbourToBorn(i)
         }
 
         setListeners(deadNumbers as ConstraintLayout) { isChecked, i ->
-            Timber.e("$i : $isChecked")
+            Timber.e("dead : $isChecked : $i")
+            if (isChecked)
+                viewModel.gameRules.addNeighbourToDie(i)
+            else
+                viewModel.gameRules.removeNeighbourToDie(i)
         }
     }
 
@@ -57,6 +66,22 @@ class SettingsActivity : BackActivity() {
                 child.setOnCheckedChangeListener { _, isChecked ->
                     listener(isChecked, i)
                 }
+            }
+        }
+    }
+
+    private fun setupView() {
+        aliveColorButton.setBackgroundColor(viewModel.gameColors.aliveColor)
+        deadColorButton.setBackgroundColor(viewModel.gameColors.deadColor)
+        check(aliveNumbers as ConstraintLayout, viewModel.gameRules.neighboursToBorn)
+        check(deadNumbers as ConstraintLayout, viewModel.gameRules.neighboursToDie)
+    }
+
+    private fun check(numberPicker: ConstraintLayout, checked: List<Int>) {
+        for (i in 0..8) {
+            val child = numberPicker.getChildAt(i)
+            if (child is CheckBox && checked.contains(i)) {
+                child.isChecked = true
             }
         }
     }
