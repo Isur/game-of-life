@@ -11,7 +11,7 @@ class TemporaryAlgorithmInitializer {
 
     init {
         initializeConwayGameBoard()
-        gameAlgorithm = ConwayAlgorithm(this.conwayGameBoard, this.conwayGameSize)
+        gameAlgorithm = ConwayAlgorithm(this.conwayGameBoard)
     }
 
     fun makeGameStep() {

@@ -1,8 +1,8 @@
 package com.adt.game_of_life.model.algorithm
 
-class ConwayAlgorithm constructor(var gameBoard: Array<Array<Int?>>, private val gameBoardSize: Int) {
-
-    var conwayTransitionGameBoard: Array<Array<Int?>> = gameBoard.copy()
+class ConwayAlgorithm constructor(var gameBoard: Array<Array<Int?>>) {
+    private val gameBoardSize: Int = gameBoard.size
+    private val conwayTransitionGameBoard: Array<Array<Int?>> = gameBoard.copy()
 
     fun gameStep(): Array<Array<Int?>> {
         for (x in 0..(gameBoardSize - 1)) {
