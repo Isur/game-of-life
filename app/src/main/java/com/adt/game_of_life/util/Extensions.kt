@@ -8,6 +8,7 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
+import com.adt.game_of_life.R
 import com.adt.game_of_life.model.dto.ActivityStartModel
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -25,7 +26,7 @@ fun <T : ViewDataBinding> AppCompatActivity.getBinding(activity: Activity, layou
 
 fun Button.showColorPicker(context: Context, initialColor: Int, callback: (Int) -> Unit) {
     ColorPickerDialogBuilder
-        .with(context)
+        .with(context, R.style.defaultDialogStyle)
         .setTitle("Choose color")
         .initialColor(initialColor)
         .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
