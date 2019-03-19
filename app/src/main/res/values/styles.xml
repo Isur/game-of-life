@@ -9,12 +9,33 @@
         <item name="android:windowBackground">@color/colorPrimaryLight</item>
 
         <item name="buttonStyle">@style/defaultButtonStyle</item>
+        <item name="android:textViewStyle">@style/defaultTextViewStyle</item>
     </style>
 
     <style name="defaultButtonStyle" parent="Base.Widget.AppCompat.Button">
         <item name="android:background">@drawable/default_button_shape</item>
         <item name="android:textColor">@color/lightGray</item>
         <item name="android:textSize">@dimen/default_button_text_size</item>
+    </style>
+
+    <style name="defaultTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/lightGray</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="smallTextViewStyle" parent="defaultTextViewStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="numberSelectTextStyle" parent="android:Widget.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/lightGray</item>
+    </style>
+
+    <style name="defaultDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/colorPrimaryLight</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
 </resources>

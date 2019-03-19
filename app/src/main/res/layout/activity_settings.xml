@@ -1,18 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
                 name="vm"
                 type="com.adt.game_of_life.viewmodel.SettingsViewModel"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".view.activity.SettingsActivity">
+            android:layout_height="wrap_content">
 
-    </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context=".view.activity.SettingsActivity"
+                android:padding="@dimen/big_margin">
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/aliveColorTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/alive_color_settings_text"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/aliveColorDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/aliveColorTextView"
+                    style="@style/smallTextViewStyle"
+                    android:text="@string/alive_color_settings_description"/>
+
+            <Button
+                    android:id="@+id/aliveColorButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    app:layout_constraintTop_toBottomOf="@+id/aliveColorDescription"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/deadColorTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    app:layout_constraintTop_toBottomOf="@id/aliveColorButton"
+                    android:text="@string/dead_color_settings_text"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/deadColorDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/deadColorTextView"
+                    style="@style/smallTextViewStyle"
+                    android:text="@string/dead_color_settings_description"/>
+
+            <Button
+                    android:id="@+id/deadColorButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    app:layout_constraintTop_toBottomOf="@+id/deadColorDescription"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/liveTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    app:layout_constraintTop_toBottomOf="@id/deadColorButton"
+                    android:text="@string/born_settings_text"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/aliveNumbersDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/liveTextView"
+                    android:text="@string/born_settings_description"
+                    style="@style/smallTextViewStyle"/>
+
+            <include
+                    android:id="@+id/aliveNumbers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/number_picker"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    app:layout_constraintTop_toBottomOf="@+id/aliveNumbersDescription"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/deadTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/aliveNumbers"
+                    android:text="@string/dead_settings_text"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/deadNumbersDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/deadTextView"
+                    android:text="@string/dead_settings_description"
+                    style="@style/smallTextViewStyle"/>
+
+            <include
+                    android:id="@+id/deadNumbers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/number_picker"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    app:layout_constraintTop_toBottomOf="@+id/deadNumbersDescription"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 
 </layout>
