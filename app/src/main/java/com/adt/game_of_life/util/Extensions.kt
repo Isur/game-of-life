@@ -25,9 +25,13 @@ fun <T : ViewDataBinding> AppCompatActivity.getBinding(activity: Activity, layou
 }
 
 fun Button.showColorPicker(context: Context, initialColor: Int, callback: (Int) -> Unit) {
+    val header = context.getString(R.string.dialog_choose_color_header)
+    val ok = context.getString(R.string.dialog_ok_button)
+    val cancel = context.getString(R.string.dialog_cancel_button)
+
     ColorPickerDialogBuilder
         .with(context, R.style.defaultDialogStyle)
-        .setTitle("Choose color")
+        .setTitle(header)
         .initialColor(initialColor)
         .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
         .density(12)
@@ -35,12 +39,12 @@ fun Button.showColorPicker(context: Context, initialColor: Int, callback: (Int) 
             Timber.e(selectedColor.toString())
         }
         .setPositiveButton(
-            "ok"
+            ok
         ) { _, selectedColor, _ ->
             this.setBackgroundColor(selectedColor)
             callback(selectedColor)
         }
-        .setNegativeButton("cancel") { _, _ -> }
+        .setNegativeButton(cancel) { _, _ -> }
         .build()
         .show()
 }
