@@ -21,4 +21,11 @@
     <string name="dialog_choose_color_header">Choose color</string>
     <string name="dialog_ok_button">ok</string>
     <string name="dialog_cancel_button">cancel</string>
+    <string name="about_text">This is our interpretation of Conway\'s Game of Life.\n\nThe Game of Life, also known
+        simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970.\n\nThe
+        game is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further
+        input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves,
+        or, for advanced players, by creating patterns with particular properties.\n
+    </string>
+    <string name="authors_text">Authors:\nArtur Bednarczyk\nDawid Grajewski\nTomasz Januszek</string>
 </resources>
