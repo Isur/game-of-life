@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/colorPrimaryLight"
         tools:context=".view.activity.SplashActivity">
 
@@ -11,5 +11,10 @@
             android:id="@+id/splashImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+    <android.support.v7.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/game_of_life_logo"/>
 
 </android.support.constraint.ConstraintLayout>

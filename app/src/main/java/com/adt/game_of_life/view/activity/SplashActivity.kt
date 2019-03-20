@@ -11,14 +11,14 @@ import pl.droidsonroids.gif.GifDrawable
 
 class SplashActivity : AppCompatActivity() {
 
-    private val visibilityTime = 3000L
+    private val visibilityTime = 2000L
     private val splashGifUrl = "gif/splash.gif"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        setupSplashGif()
+        //setupSplashGif()
         setupTransition()
     }
 
