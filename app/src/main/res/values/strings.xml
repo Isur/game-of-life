@@ -10,4 +10,15 @@
     <string name="about_activity_title">About</string>
     <string name="about_button_text">ABOUT</string>
     <string name="application_main_splash_screen_description">Application main splash screen</string>
+    <string name="born_settings_text">Birth rules</string>
+    <string name="dead_settings_text">Dying rules</string>
+    <string name="alive_color_settings_text">Alive color</string>
+    <string name="dead_color_settings_text">Dead color</string>
+    <string name="dead_color_settings_description">Set the color of the dead cell.</string>
+    <string name="alive_color_settings_description">Set the color of alive cell.</string>
+    <string name="born_settings_description">How meny neighbours needed for dead cell to become alive.</string>
+    <string name="dead_settings_description">How many neighbours needed for alive cell to die.</string>
+    <string name="dialog_choose_color_header">Choose color</string>
+    <string name="dialog_ok_button">ok</string>
+    <string name="dialog_cancel_button">cancel</string>
 </resources>

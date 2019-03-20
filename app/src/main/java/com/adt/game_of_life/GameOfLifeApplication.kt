@@ -1,6 +1,13 @@
 package com.adt.game_of_life
 
 import android.app.Application
+import com.adt.game_of_life.model.pref.IColorsPref
+import com.adt.game_of_life.model.pref.IGameRulesPref
+import com.adt.game_of_life.model.pref.SharedPrefAccess
+import com.adt.game_of_life.model.pref.serializer.GameRulesSerializer
+import com.adt.game_of_life.model.pref.serializer.IGameRulesSerializer
+import com.adt.game_of_life.model.setting.GameColors
+import com.adt.game_of_life.model.setting.GameRules
 import com.adt.game_of_life.viewmodel.GameViewModel
 import com.adt.game_of_life.viewmodel.LoadViewModel
 import com.adt.game_of_life.viewmodel.MenuViewModel
@@ -23,10 +30,18 @@ class GameOfLifeApplication : Application() {
 
     private fun getApplicationModule(): Module {
         return module {
+            single<IGameRulesSerializer> { GameRulesSerializer() }
+            single {
+                SharedPrefAccess(this@GameOfLifeApplication, get())
+            } bind IGameRulesPref::class bind IColorsPref::class
+
+            single { GameRules(get()) }
+            single { GameColors(get()) }
+
             viewModel { MenuViewModel() }
             viewModel { GameViewModel() }
             viewModel { LoadViewModel() }
-            viewModel { SettingsViewModel() }
+            viewModel { SettingsViewModel(get(), get()) }
         }
     }
 
