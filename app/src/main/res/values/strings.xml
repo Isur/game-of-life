@@ -9,4 +9,5 @@
     <string name="settings_button_text">SETTINGS</string>
     <string name="about_activity_title">About</string>
     <string name="about_button_text">ABOUT</string>
+    <string name="application_main_splash_screen_description">Application main splash screen</string>
 </resources>

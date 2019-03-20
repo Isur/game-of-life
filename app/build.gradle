@@ -38,9 +38,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    // Display gif
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
-
     // Event logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
