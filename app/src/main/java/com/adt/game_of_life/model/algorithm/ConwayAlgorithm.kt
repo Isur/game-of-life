@@ -1,10 +1,15 @@
 package com.adt.game_of_life.model.algorithm
 
-class ConwayAlgorithm constructor(var gameBoard: Array<Array<Int?>>) {
+import com.adt.game_of_life.model.setting.GameRules
+
+class ConwayAlgorithm constructor(
+    private val gameRules: GameRules,
+    override var gameBoard: Array<Array<Int?>>
+) : IConwayAlgorithm {
     private val gameBoardSize: Int = gameBoard.size
     private val conwayTransitionGameBoard: Array<Array<Int?>> = gameBoard.copy()
 
-    fun gameStep(): Array<Array<Int?>> {
+    override fun gameStep(): Array<Array<Int?>> {
         for (x in 0..(gameBoardSize - 1)) {
             for (y in 0..(gameBoardSize - 1)) {
                 updateCellLife(x, y)
@@ -18,11 +23,11 @@ class ConwayAlgorithm constructor(var gameBoard: Array<Array<Int?>>) {
     private fun updateCellLife(x: Int, y: Int) {
         val cellNeighbours = countCellNeighbours(x, y)
         if (gameBoard[x][y] == 1) {
-            if (cellNeighbours != 2 && cellNeighbours != 3) {
+            if (gameRules.neighboursToDie.contains(cellNeighbours)) {
                 conwayTransitionGameBoard[x][y] = 0
             }
         } else {
-            if (cellNeighbours == 3) {
+            if (gameRules.neighboursToBorn.contains(cellNeighbours)) {
                 conwayTransitionGameBoard[x][y] = 1
             }
         }
