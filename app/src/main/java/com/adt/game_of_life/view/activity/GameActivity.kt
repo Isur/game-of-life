@@ -13,11 +13,13 @@ import com.adt.game_of_life.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.activity_game.*
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
+import uk.co.senab.photoview.PhotoViewAttacher
 
 class GameActivity : BackActivity() {
 
     private val viewModel: GameViewModel by viewModel()
     private lateinit var bitmapGenerator: IBitmapGenerator
+    private lateinit var photoView: PhotoViewAttacher
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,8 @@ class GameActivity : BackActivity() {
         binding.vm = viewModel
 
         setTitle(R.string.game_activity_title)
+
+        photoView = PhotoViewAttacher(gameImageView)
 
         setListeners()
     }
@@ -39,11 +43,18 @@ class GameActivity : BackActivity() {
     }
 
     private fun setObservers() {
-        viewModel.board.observe(this, Observer {
-            if (it != null) {
-                val bitmap = bitmapGenerator.generate(it)
-                gameImageView.setImageBitmap(bitmap)
-            }
+        viewModel.board.observe(this, Observer { board ->
+            board?.let { updateVisualization(it) }
         })
+    }
+
+    private fun updateVisualization(board: Array<Array<Int?>>) {
+        val matrix = photoView.displayMatrix
+
+        val bitmap = bitmapGenerator.generate(board)
+        gameImageView.setImageBitmap(bitmap)
+
+        photoView.update()
+        photoView.displayMatrix = matrix
     }
 }
