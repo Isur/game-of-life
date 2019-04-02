@@ -38,6 +38,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    // Zooming
+    implementation 'com.github.chrisbanes:PhotoView:1.2.6'
+
     // Color picker
     implementation 'com.github.QuadFlask:colorpicker:0.0.13'
 
