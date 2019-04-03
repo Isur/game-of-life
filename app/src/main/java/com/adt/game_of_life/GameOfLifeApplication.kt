@@ -10,6 +10,9 @@ import com.adt.game_of_life.model.pref.serializer.GameRulesSerializer
 import com.adt.game_of_life.model.pref.serializer.IGameRulesSerializer
 import com.adt.game_of_life.model.setting.GameColors
 import com.adt.game_of_life.model.setting.GameRules
+import com.adt.game_of_life.model.simulation.ILooper
+import com.adt.game_of_life.model.simulation.LooperImp
+import com.adt.game_of_life.model.simulation.SpeedModel
 import com.adt.game_of_life.viewmodel.GameViewModel
 import com.adt.game_of_life.viewmodel.LoadViewModel
 import com.adt.game_of_life.viewmodel.MenuViewModel
@@ -44,8 +47,11 @@ class GameOfLifeApplication : Application() {
             single { Array(50) { Array<Int?>(50) { Random.nextInt(0, 2) } } }
             single<IConwayAlgorithm> { ConwayAlgorithm(get(), get()) }
 
+            single<ILooper> { LooperImp() }
+            factory { SpeedModel(10000) }
+
             viewModel { MenuViewModel() }
-            viewModel { GameViewModel(get()) }
+            viewModel { GameViewModel(get(), get(), get()) }
             viewModel { LoadViewModel() }
             viewModel { SettingsViewModel(get(), get()) }
         }
