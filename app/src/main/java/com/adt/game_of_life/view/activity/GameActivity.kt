@@ -3,6 +3,7 @@ package com.adt.game_of_life.view.activity
 import abak.tr.com.boxedverticalseekbar.BoxedVertical
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import com.adt.game_of_life.R
 import com.adt.game_of_life.databinding.ActivityGameBinding
@@ -15,6 +16,7 @@ import com.adt.game_of_life.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.activity_game.*
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 import uk.co.senab.photoview.PhotoViewAttacher
 
 class GameActivity : BackActivity() {
@@ -55,7 +57,25 @@ class GameActivity : BackActivity() {
         })
 
         speedButton.setOnClickListener {
-            speedSeekBar.visibility = if (speedSeekBar.visibility == View.GONE) View.VISIBLE else View.GONE
+            speedSeekBar.visibility = if (speedSeekBar.visibility == View.INVISIBLE) View.VISIBLE else View.INVISIBLE
+        }
+
+        swapImageView.tag = "1" //todo: change to observable vm variable
+        // todo: have to store matrix somewhere
+        // todo: handle (x,y) to cell conversion
+        swapImageView.setOnClickListener {
+            if (swapImageView.tag == "1") {
+                swapImageView.tag = "2"
+                gameImageView.setOnTouchListener(object : View.OnTouchListener {
+                    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                        Timber.e("x: ${event?.x} ; y: ${event?.y} ")
+                        return true
+                    }
+                })
+            } else {
+                swapImageView.tag = "1"
+                photoView = PhotoViewAttacher(gameImageView)
+            }
         }
     }
 
