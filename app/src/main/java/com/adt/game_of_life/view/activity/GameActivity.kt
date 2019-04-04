@@ -1,7 +1,9 @@
 package com.adt.game_of_life.view.activity
 
+import abak.tr.com.boxedverticalseekbar.BoxedVertical
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.view.View
 import com.adt.game_of_life.R
 import com.adt.game_of_life.databinding.ActivityGameBinding
 import com.adt.game_of_life.model.bitmap.BitmapGenerator
@@ -26,11 +28,14 @@ class GameActivity : BackActivity() {
         val binding = getBinding<ActivityGameBinding>(this, R.layout.activity_game)
         binding.vm = viewModel
 
-        setTitle(R.string.game_activity_title)
-
-        photoView = PhotoViewAttacher(gameImageView)
-
+        setupView()
         setListeners()
+    }
+
+    private fun setupView() {
+        setTitle(R.string.game_activity_title)
+        photoView = PhotoViewAttacher(gameImageView)
+        speedSeekBar.value = viewModel.speed
     }
 
     private fun setListeners() {
@@ -39,6 +44,18 @@ class GameActivity : BackActivity() {
             val viewProperties = ViewProperties(gameImageView.width, gameImageView.height)
             bitmapGenerator = BitmapGenerator(get(), viewProperties)
             setObservers()
+        }
+
+        speedSeekBar.setOnBoxedPointsChangeListener(object : BoxedVertical.OnValuesChangeListener {
+            override fun onStartTrackingTouch(p0: BoxedVertical?) {}
+            override fun onStopTrackingTouch(p0: BoxedVertical?) {}
+            override fun onPointsChanged(p0: BoxedVertical?, progress: Int) {
+                viewModel.changeSpeed(progress)
+            }
+        })
+
+        speedButton.setOnClickListener {
+            speedSeekBar.visibility = if (speedSeekBar.visibility == View.GONE) View.VISIBLE else View.GONE
         }
     }
 
@@ -56,5 +73,10 @@ class GameActivity : BackActivity() {
 
         photoView.update()
         photoView.displayMatrix = matrix
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        viewModel.destroy()
     }
 }
