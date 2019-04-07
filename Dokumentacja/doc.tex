@@ -7,17 +7,47 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{listings}
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage{tikz}
+\usepackage{makecell}
+\usepackage[edges]{forest}
+
+% FOREST
+\definecolor{foldercolor}{RGB}{124,166,198}
+
+\tikzset{pics/folder/.style={code={%
+    \node[inner sep=0pt, minimum size=#1](-foldericon){};
+    \node[folder style, inner sep=0pt, minimum width=0.3*#1, minimum height=0.6*#1, above right, xshift=0.05*#1] at (-foldericon.west){};
+    \node[folder style, inner sep=0pt, minimum size=#1] at (-foldericon.center){};}
+    },
+    pics/folder/.default={20pt},
+    folder style/.style={draw=foldercolor!80!black,top color=foldercolor!40,bottom color=foldercolor}
+}
+
+\forestset{is file/.style={edge path'/.expanded={%
+        ([xshift=\forestregister{folder indent}]!u.parent anchor) |- (.child anchor)},
+        inner sep=1pt},
+    this folder size/.style={edge path'/.expanded={%
+        ([xshift=\forestregister{folder indent}]!u.parent anchor) |- (.child anchor) pic[solid]{folder=#1}}, inner ysep=0.6*#1},
+    folder tree indent/.style={before computing xy={l=#1}},
+    folder icons/.style={folder, this folder size=#1, folder tree indent=3*#1},
+    folder icons/.default={12pt},
+}
 
 \colorlet{punct}{red!60!black}
 \definecolor{background}{HTML}{EEEEEE}
 \definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+% LISTINGS
 \definecolor{bluekeywords}{rgb}{0,0,1}
 \definecolor{greencomments}{rgb}{0,0.5,0}
 \definecolor{redstrings}{rgb}{0.64,0.08,0.08}
 \definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
 \definecolor{types}{rgb}{0.17,0.57,0.68}
-\colorlet{numb}{magenta!60!black}
+\usepackage{listings}
+
 \lstdefinelanguage{Kotlin}{
   comment=[l]{//},
   commentstyle={\color{gray}\ttfamily},
@@ -32,8 +62,11 @@
   ndkeywords={@Deprecated, @JvmField, @JvmName, @JvmOverloads, @JvmStatic, @JvmSynthetic, Array, Byte, Double, Float, Int, Integer, Iterable, Long, Runnable, Short, String},
   ndkeywordstyle={\color{BurntOrange}\bfseries},
   sensitive=true,
+  breaklines=true
   stringstyle={\color{ForestGreen}\ttfamily},
 }
+
+
 \lstdefinelanguage{json}{
     basicstyle=\normalfont\ttfamily,
     numbers=left,
@@ -77,9 +110,9 @@
 \begin{tabular}{c|l}
 Osoba & Główna odpowiedzialność \\
 \hline
-Artur Bednarczyk & Organizacja, dokumentacja, film \\
-Dawid Grajewski &  \\
-Tomasz Januszek & 
+Artur Bednarczyk & Organizacja, dokumentacja, film, projekty graficzne, code review \\
+Dawid Grajewski & Struktura aplikacji, implementacja\\
+Tomasz Januszek & Algorytm gry w życie, ,,nie nagrywaj mnie``
 \end{tabular}
 \subsection{Temat}
 \paragraph{Gra w życie Conwaya}
@@ -94,7 +127,7 @@ UI programu będzie złożone z kilku elementów:
 \begin{itemize}
 	\item Splash Screen - ekran powitalny
 	\item Menu - pozwoli na przejście do konkretnych opcji aplikacji.
-	\item Ustawienia - w tym miejscu użytkownik może zmienić reguły gry, kolorystykę oraz rozmiar planszy.
+	\item Ustawienia - w tym miejscu użytkownik może zmienić reguły gry oraz kolorystykę.
 	\item O Projekcie - Informacje o projekcie oraz krótka instrukcja.
 	\item Wczytywanie - Lista zapisanych stanów gry.
 	\item Gra - Widok planszy oraz ustawień prędkości. Tutaj również użytkownik może zapisać stan gry.
@@ -106,10 +139,55 @@ UI programu będzie złożone z kilku elementów:
 \includegraphics[width=0.33\textwidth]{Images/ui_saves.png}
 \includegraphics[width=0.33\textwidth]{Images/ui_settings.png}
 \includegraphics[width=0.33\textwidth]{Images/ui_about.png}
-\section{Teoria}
-\subsection{Algorytmy}
-\subsubsection{Aktualizacja gry}
-
+\section{Algorytmy}
+\subsection{Aktualizacja gry}
+Z każdym kolejnym krokiem krokiem aktualizowane są wszystkie komórki.
+\begin{lstlisting}[language=Kotlin]
+for (x in 0..(gameBoardSize - 1)) {
+    for (y in 0..(gameBoardSize - 1)) {
+        updateCellLife(x, y)
+    }
+}
+\end{lstlisting}
+Przy aktualizacji sprawdzany jest stan komórki, w zależności od którego sprawdzane są odpowiednie zasady, które są porównywane z stanem sąsiadów komórki.
+\begin{lstlisting}[language=Kotlin]
+if (gameBoard[x][y] == 1) {
+    if (gameRules.neighboursToDie.contains(cellNeighbours)) {
+        conwayTransitionGameBoard[x][y] = 0
+    }
+} else {
+    if (gameRules.neighboursToBorn.contains(cellNeighbours)) {
+        conwayTransitionGameBoard[x][y] = 1
+    }
+}
+\end{lstlisting}
+Gdzie stan sąsiadów, to liczba żywych komórek w otoczeniu sprawdzanej:
+\begin{lstlisting}[language=Kotlin]
+if (x > 0 && gameBoard[x - 1][y] == 1) {
+    liveNeighbouringCellsCounter += 1
+}
+if (x < (gameBoardSize - 1) && gameBoard[x + 1][y] == 1) {
+    liveNeighbouringCellsCounter += 1
+}
+if (y > 0 && gameBoard[x][y - 1] == 1) {
+    liveNeighbouringCellsCounter += 1
+}
+if (y < (gameBoardSize - 1) && gameBoard[x][y + 1] == 1) {
+    liveNeighbouringCellsCounter += 1
+}
+if (x > 0 && y > 0 && gameBoard[x - 1][y - 1] == 1) {
+    liveNeighbouringCellsCounter += 1
+}
+if (x > 0 && y < (gameBoardSize - 1) && gameBoard[x - 1][y + 1] == 1) {
+    liveNeighbouringCellsCounter += 1
+}
+if (x < (gameBoardSize - 1) && y > 0 && gameBoard[x + 1][y - 1] == 1) {
+    liveNeighbouringCellsCounter += 1
+}
+if (x < (gameBoardSize - 1) && y < (gameBoardSize - 1) && gameBoard[x + 1][y + 1] == 1) {
+    liveNeighbouringCellsCounter += 1
+}
+\end{lstlisting}
 \section{Narzędzia}
 \subsection{Kontrola wersji}
 Do zarządzania kodem i wersjami projektu wykorzystujemy narzędzie Git. Korzystamy z platformy GitHub jako repozytorium dostępnego online. Dobór narzędzi służących do korzystania z repozytorium to sprawa indywidualna każdego członka zespołu, ponieważ nie ma ona wpływu na sam projekt.
@@ -117,15 +195,116 @@ Do zarządzania kodem i wersjami projektu wykorzystujemy narzędzie Git. Korzyst
 \subsection{Zarzadzanie zespołem}
 Trello - Kanban Board - to tutaj rozpisujemy zadania i przydzielamy je sobie, określamy również terminy i planujemy.\\
 
-
+Przy współpracy, aby dane zmiany zostały wprowadzone muszą zostać akceptowane przez innego członka zespołu.
 \subsection{Środowisko}
 Android Studio - Kotlin \\
 \section{Aplikacja}
 \subsection{Architektura}
-
+Aplikacja została utworzona zgodnie z architekturą MVVM (Model-View-ViewModel)\\
+\includegraphics[width=1\textwidth]{Images/mvvm.png}\\
+Dzięki ,,Data binding`` dane przechowywane przez model są automatycznie odświeżanie w widoku. View, jako warstwa widoku zawiera interfejs użytkownika oraz odpowiada za interakcję z użytkownikiem. Viewmodel jest warstwą modelu widoku, która udostępnia dane i odpowiada za wymianę informacji z modelem. Przechowuje również referencje do modelu. Model zawiera logikę aplikacji.
 \subsection{Struktury danych}
-
+Reguły gry w życie przechowujemy jako ciąg liczb określających liczbę sąsiadów, oddzielany średnikiem. Przykład: \\
+''0;1;2;3;'' \\
+Kolory są w formacie ARGB. \\
+Zapis stanu do pliku w formacie JSON, przykład:\\ 
+\begin{lstlisting}[language=json]
+{ 
+	x: 3,
+	y: 3,
+	birth: "1;2;3;",
+	death: "4;5;",
+	aliveColor: -1,
+	deadColor: -16777216,
+	gameState: 	[1,0,0,
+			1,0,1,
+			1,0,1,]
+}
+\end{lstlisting}
 \subsection{Schemat graficzny struktury systemu}
-\subsection{Testowanie}
+\subsection{Podział na pliki}
+\begin{multicols}{2}
+\scalebox{0.7}[0.7]{
+			\begin{forest}
+				for tree={font=\sffamily, grow'=0,
+    folder indent=.3em, folder icons}
+    	[Main
+    	    [.model
+				[.algorithm
+					[ConwayAlgorithm, is file]
+					[IConwayAlgorithm. is file]				
+				]
+				[.bitmap
+					[BitmapGenerator, is file]				
+					[IBitmapGenerator, is file]
+				]
+				[.dto
+					[ActivityStartModel, is file]				
+				]
+				[.event
+					[SingleLiveEvent, is file]				
+				]
+				[.pref
+					[.serializer
+						[GameRulesSerializer, is file]
+						[IGameRulesSerializer, is file]		
+					]
+					[IColorPref, is file]
+					[IGameRulesPref, is file]
+					[SharedPrefAccess, is file]
+				]
+				[.setting
+					[GameColors, is file]
+					[GameRules, is file]
+					[ViewProperties, is file]
+				]
+				[.simulation
+					[ILooper, is file]
+					[LooperImp, is file]
+					[SpeedModel, is file]
+				]    	    
+    	    ]
+    	 ]
+    	 \end{forest}
+		\begin{forest}
+				for tree={font=\sffamily, grow'=0,
+    folder indent=.3em, folder icons}
+    [.Main
+     		[.util
+				[Extensions, is file]    	    
+    	    ]
+    	    [.view.acivity
+    	    	[.contract
+					  [BackActivity, is file]  	    	
+    	    	]
+				[AboutActivity, is file]    	    
+				[GameActivity, is file]
+				[LoadActivity, is file]
+				[MenuActivity, is file]
+				[SettingsActivity, is file]
+				[SplashActivity, is file]
+    	    ]
+    	    [.viewmodel
+				[GameViewModel, is file]
+				[LoadViewModel, is file]
+				[MenuViewModel, is file]
+				[SettingsViewModel, is file]    	    	
+    	    ]
+    	    [GameOfLifeApplication, is file]
+       	]
+			\end{forest}
+			}
 
+		\end{multicols}
+\subsection{Biblioteki}
+W projekcie zostały wykorzystane następujące biblioteki:
+\begin{itemize}
+\item Lifecycle library - zarządzanie aktywnościami i cyklem życia
+\item Koin - wstrzykiwanie zależności
+\item Dexter - zarządzanie uprawnieniami
+\item QuadFlask:colorpicker - wybieranie kolorów
+\item Timber - logowanie
+\end{itemize}
+\subsection{Testowanie}
+Aplikacja jest testowana testami jednostkowymi oraz manualnie. Jednostkowo została przetestowana klasa ,,GameRulesSerializer``
 \end{document}
