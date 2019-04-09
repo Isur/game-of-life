@@ -3,7 +3,7 @@ package com.adt.game_of_life.model.bitmap
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.RectF
 import com.adt.game_of_life.model.setting.GameColors
 import com.adt.game_of_life.model.setting.ViewProperties
 
@@ -15,12 +15,12 @@ class BitmapGenerator(
     private val viewProperties: ViewProperties
 ) : IBitmapGenerator {
 
-    private var cellWidth = 0
-    private var cellHeight = 0
+    private var cellWidth = 0f
+    private var cellHeight = 0f
 
     private val bitmap = Bitmap.createBitmap(viewProperties.width, viewProperties.height, Bitmap.Config.RGB_565)
     private val canvas = Canvas(bitmap)
-    private val rect = Rect()
+    private val rect = RectF()
     private val paint = Paint()
 
     init {
@@ -28,8 +28,8 @@ class BitmapGenerator(
     }
 
     override fun generate(board: Array<Array<Int?>>): Bitmap {
-        cellHeight = viewProperties.height / board.size
-        cellWidth = viewProperties.width / board[0].size
+        cellHeight = viewProperties.height / board.size.toFloat()
+        cellWidth = viewProperties.width / board[0].size.toFloat()
 
         canvas.drawColor(gameColors.deadColor)
 
