@@ -71,15 +71,17 @@ class GameActivity : BackActivity() {
         }
 
         swapImageView.tag = "1" //todo: change to observable vm variable
-        // todo: have to store matrix somewhere
-        // todo: handle (x,y) to cell conversion
         swapImageView.setOnClickListener {
             if (swapImageView.tag == "1") {
                 swapImageView.tag = "2"
                 gameImageView.setOnTouchListener { _, event ->
                     event?.let {
                         if (gameImageView.containsPoint(it.x, it.y)) {
-                            val toBoard = coordsConverter.convert(it.x.toInt(), it.y.toInt())
+                            val x = it.x.toInt()
+                            val y = it.y.toInt()
+                            val scale = photoView.scale
+                            val rect = photoView.displayRect
+                            val toBoard = coordsConverter.convert(x, y, scale, rect)
                             viewModel.reviveCell(toBoard.x, toBoard.y)
                         }
                     }
