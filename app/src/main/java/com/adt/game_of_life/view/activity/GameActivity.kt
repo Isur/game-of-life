@@ -12,6 +12,8 @@ import com.adt.game_of_life.model.bitmap.IBitmapGenerator
 import com.adt.game_of_life.model.dto.BoardProperties
 import com.adt.game_of_life.model.dto.CellProperties
 import com.adt.game_of_life.model.dto.ViewProperties
+import com.adt.game_of_life.model.input.IScreenToBoardConverter
+import com.adt.game_of_life.model.input.ScreenToBoardConverter
 import com.adt.game_of_life.util.getBinding
 import com.adt.game_of_life.view.activity.contract.BackActivity
 import com.adt.game_of_life.viewmodel.GameViewModel
@@ -29,6 +31,7 @@ class GameActivity : BackActivity() {
     private lateinit var viewProperties: ViewProperties
     private lateinit var boardProperties: BoardProperties
     private lateinit var cellProperties: CellProperties
+    private lateinit var coordsConverter: IScreenToBoardConverter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +54,8 @@ class GameActivity : BackActivity() {
             viewProperties = ViewProperties(gameImageView.width, gameImageView.height)
             boardProperties = viewModel.boardProperties
             cellProperties = CellProperties(viewProperties, boardProperties)
-            bitmapGenerator = BitmapGenerator(get(), viewProperties)
+            coordsConverter = ScreenToBoardConverter(cellProperties)
+            bitmapGenerator = BitmapGenerator(get(), cellProperties, viewProperties)
             setObservers()
         }
 
@@ -75,7 +79,11 @@ class GameActivity : BackActivity() {
                 swapImageView.tag = "2"
                 gameImageView.setOnTouchListener(object : View.OnTouchListener {
                     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                        Timber.e("x: ${event?.x} ; y: ${event?.y} ")
+                        event?.let {
+                            Timber.e("x: ${it.x} ; y: ${it.y} ")
+                            val toBoard = coordsConverter.convert(it.x.toInt(), it.y.toInt())
+                            Timber.e("boardX: ${toBoard.x} ; boardY: ${toBoard.y}")
+                        }
                         return true
                     }
                 })
@@ -95,7 +103,7 @@ class GameActivity : BackActivity() {
     private fun updateVisualization(board: Array<Array<Int?>>) {
         val matrix = photoView.displayMatrix
 
-        val bitmap = bitmapGenerator.generate(board, cellProperties)
+        val bitmap = bitmapGenerator.generate(board)
         gameImageView.setImageBitmap(bitmap)
 
         photoView.update()

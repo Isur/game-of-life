@@ -13,7 +13,8 @@ import com.adt.game_of_life.model.setting.GameColors
  */
 class BitmapGenerator(
     private val gameColors: GameColors,
-    private val viewProperties: ViewProperties
+    private val cell: CellProperties,
+    viewProperties: ViewProperties
 ) : IBitmapGenerator {
 
     private val bitmap = Bitmap.createBitmap(viewProperties.width, viewProperties.height, Bitmap.Config.RGB_565)
@@ -25,7 +26,7 @@ class BitmapGenerator(
         paint.color = gameColors.aliveColor
     }
 
-    override fun generate(board: Array<Array<Int?>>, cell: CellProperties): Bitmap {
+    override fun generate(board: Array<Array<Int?>>): Bitmap {
         canvas.drawColor(gameColors.deadColor)
 
         for (y in board.indices) {
