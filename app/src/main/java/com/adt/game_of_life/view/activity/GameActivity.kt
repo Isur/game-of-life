@@ -87,7 +87,9 @@ class GameActivity : BackActivity() {
                 }
             } else {
                 swapImageView.tag = "1"
+                val matrix = photoView.displayMatrix
                 photoView = PhotoViewAttacher(gameImageView)
+                photoView.displayMatrix = matrix
             }
         }
     }
