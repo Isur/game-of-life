@@ -34,6 +34,12 @@ class GameViewModel(
             looper.start({ step() }, speedModel.interval)
     }
 
+    fun reviveCell(x: Int, y: Int) {
+        val needRedraw = conwayAlgorithm.reviveCell(x, y)
+        if (needRedraw)
+            board.value = conwayAlgorithm.gameBoard
+    }
+
     fun destroy() {
         looper.stop()
     }

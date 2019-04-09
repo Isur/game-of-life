@@ -3,7 +3,6 @@ package com.adt.game_of_life.view.activity
 import abak.tr.com.boxedverticalseekbar.BoxedVertical
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
 import com.adt.game_of_life.R
 import com.adt.game_of_life.databinding.ActivityGameBinding
@@ -14,13 +13,13 @@ import com.adt.game_of_life.model.dto.CellProperties
 import com.adt.game_of_life.model.dto.ViewProperties
 import com.adt.game_of_life.model.input.IScreenToBoardConverter
 import com.adt.game_of_life.model.input.ScreenToBoardConverter
+import com.adt.game_of_life.util.containsPoint
 import com.adt.game_of_life.util.getBinding
 import com.adt.game_of_life.view.activity.contract.BackActivity
 import com.adt.game_of_life.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.activity_game.*
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 import uk.co.senab.photoview.PhotoViewAttacher
 
 class GameActivity : BackActivity() {
@@ -77,16 +76,15 @@ class GameActivity : BackActivity() {
         swapImageView.setOnClickListener {
             if (swapImageView.tag == "1") {
                 swapImageView.tag = "2"
-                gameImageView.setOnTouchListener(object : View.OnTouchListener {
-                    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                        event?.let {
-                            Timber.e("x: ${it.x} ; y: ${it.y} ")
+                gameImageView.setOnTouchListener { _, event ->
+                    event?.let {
+                        if (gameImageView.containsPoint(it.x, it.y)) {
                             val toBoard = coordsConverter.convert(it.x.toInt(), it.y.toInt())
-                            Timber.e("boardX: ${toBoard.x} ; boardY: ${toBoard.y}")
+                            viewModel.reviveCell(toBoard.x, toBoard.y)
                         }
-                        return true
                     }
-                })
+                    true
+                }
             } else {
                 swapImageView.tag = "1"
                 photoView = PhotoViewAttacher(gameImageView)

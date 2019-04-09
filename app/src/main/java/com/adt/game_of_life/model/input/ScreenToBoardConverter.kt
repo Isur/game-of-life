@@ -10,8 +10,8 @@ class ScreenToBoardConverter(private val cell: CellProperties) : IScreenToBoardC
     }
 
     override fun convert(x: Int, y: Int): Coords {
-        val boardX = Math.round(x / cell.width)
-        val boardY = Math.round(y / cell.height)
+        val boardX = (x / cell.width).toInt()
+        val boardY = (y / cell.height).toInt()
         return Coords(boardX, boardY)
     }
 }

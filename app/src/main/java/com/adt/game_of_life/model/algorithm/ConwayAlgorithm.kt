@@ -67,5 +67,14 @@ class ConwayAlgorithm constructor(
         return liveNeighbouringCellsCounter
     }
 
+    override fun reviveCell(x: Int, y: Int): Boolean {
+        return if (gameBoard[y][x] == 1) {
+            false
+        } else {
+            gameBoard[y][x] = 1
+            true
+        }
+    }
+
     private fun Array<Array<Int?>>.copy() = Array(gameBoardSize) { get(it).clone() }
 }
