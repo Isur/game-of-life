@@ -3,6 +3,7 @@ package com.adt.game_of_life.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.adt.game_of_life.model.algorithm.IConwayAlgorithm
+import com.adt.game_of_life.model.dto.BoardProperties
 import com.adt.game_of_life.model.simulation.ILooper
 import com.adt.game_of_life.model.simulation.SpeedModel
 
@@ -13,6 +14,8 @@ class GameViewModel(
 ) : ViewModel() {
 
     val board = MutableLiveData<Array<Array<Int?>>>()
+    val boardProperties: BoardProperties
+        get() = conwayAlgorithm.boardProperties
     val speed: Int
         get() = speedModel.percentageSpeed
 

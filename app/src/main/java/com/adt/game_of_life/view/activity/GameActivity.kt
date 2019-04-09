@@ -9,7 +9,9 @@ import com.adt.game_of_life.R
 import com.adt.game_of_life.databinding.ActivityGameBinding
 import com.adt.game_of_life.model.bitmap.BitmapGenerator
 import com.adt.game_of_life.model.bitmap.IBitmapGenerator
-import com.adt.game_of_life.model.setting.ViewProperties
+import com.adt.game_of_life.model.dto.BoardProperties
+import com.adt.game_of_life.model.dto.CellProperties
+import com.adt.game_of_life.model.dto.ViewProperties
 import com.adt.game_of_life.util.getBinding
 import com.adt.game_of_life.view.activity.contract.BackActivity
 import com.adt.game_of_life.viewmodel.GameViewModel
@@ -24,6 +26,9 @@ class GameActivity : BackActivity() {
     private val viewModel: GameViewModel by viewModel()
     private lateinit var bitmapGenerator: IBitmapGenerator
     private lateinit var photoView: PhotoViewAttacher
+    private lateinit var viewProperties: ViewProperties
+    private lateinit var boardProperties: BoardProperties
+    private lateinit var cellProperties: CellProperties
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +48,9 @@ class GameActivity : BackActivity() {
     private fun setListeners() {
         gameImageView.post {
             // Invoked when view is rendered so width and height are ready
-            val viewProperties = ViewProperties(gameImageView.width, gameImageView.height)
+            viewProperties = ViewProperties(gameImageView.width, gameImageView.height)
+            boardProperties = viewModel.boardProperties
+            cellProperties = CellProperties(viewProperties, boardProperties)
             bitmapGenerator = BitmapGenerator(get(), viewProperties)
             setObservers()
         }
@@ -88,7 +95,7 @@ class GameActivity : BackActivity() {
     private fun updateVisualization(board: Array<Array<Int?>>) {
         val matrix = photoView.displayMatrix
 
-        val bitmap = bitmapGenerator.generate(board)
+        val bitmap = bitmapGenerator.generate(board, cellProperties)
         gameImageView.setImageBitmap(bitmap)
 
         photoView.update()

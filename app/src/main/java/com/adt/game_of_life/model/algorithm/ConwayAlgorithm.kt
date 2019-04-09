@@ -1,5 +1,6 @@
 package com.adt.game_of_life.model.algorithm
 
+import com.adt.game_of_life.model.dto.BoardProperties
 import com.adt.game_of_life.model.setting.GameRules
 
 class ConwayAlgorithm constructor(
@@ -8,6 +9,8 @@ class ConwayAlgorithm constructor(
 ) : IConwayAlgorithm {
     private val gameBoardSize: Int = gameBoard.size
     private val conwayTransitionGameBoard: Array<Array<Int?>> = gameBoard.copy()
+    override val boardProperties: BoardProperties
+        get() = BoardProperties(gameBoard.size, gameBoard[0].size)
 
     override fun gameStep(): Array<Array<Int?>> {
         for (x in 0..(gameBoardSize - 1)) {
