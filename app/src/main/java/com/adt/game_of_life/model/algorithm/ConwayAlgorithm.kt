@@ -72,6 +72,7 @@ class ConwayAlgorithm constructor(
             false
         } else {
             gameBoard[y][x] = 1
+            conwayTransitionGameBoard[y][x] = 1
             true
         }
     }
