@@ -2,7 +2,9 @@ package com.adt.game_of_life.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.adt.game_of_life.enums.InputMode
 import com.adt.game_of_life.model.algorithm.IConwayAlgorithm
+import com.adt.game_of_life.model.dto.BoardProperties
 import com.adt.game_of_life.model.simulation.ILooper
 import com.adt.game_of_life.model.simulation.SpeedModel
 
@@ -13,11 +15,15 @@ class GameViewModel(
 ) : ViewModel() {
 
     val board = MutableLiveData<Array<Array<Int?>>>()
+    val boardProperties: BoardProperties
+        get() = conwayAlgorithm.boardProperties
     val speed: Int
         get() = speedModel.percentageSpeed
+    val inputMode = MutableLiveData<InputMode>()
 
     init {
         board.value = conwayAlgorithm.gameBoard
+        inputMode.value = InputMode.REVIVE
     }
 
     fun step() {
@@ -29,6 +35,24 @@ class GameViewModel(
         speedModel.percentageSpeed = percentage
         if (speedModel.canRun)
             looper.start({ step() }, speedModel.interval)
+    }
+
+    fun reviveCell(x: Int, y: Int) {
+        val needRedraw = conwayAlgorithm.reviveCell(x, y)
+        if (needRedraw) board.value = conwayAlgorithm.gameBoard
+    }
+
+    fun killCell(x: Int, y: Int) {
+        val needRedraw = conwayAlgorithm.killCell(x, y)
+        if (needRedraw) board.value = conwayAlgorithm.gameBoard
+    }
+
+    fun switchInputMode() {
+        when (inputMode.value) {
+            InputMode.ZOOM -> inputMode.value = InputMode.REVIVE
+            InputMode.REVIVE -> inputMode.value = InputMode.KILL
+            InputMode.KILL -> inputMode.value = InputMode.ZOOM
+        }
     }
 
     fun destroy() {

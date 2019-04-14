@@ -3,12 +3,20 @@ package com.adt.game_of_life.view.activity
 import abak.tr.com.boxedverticalseekbar.BoxedVertical
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AppCompatImageView
 import android.view.View
 import com.adt.game_of_life.R
 import com.adt.game_of_life.databinding.ActivityGameBinding
+import com.adt.game_of_life.enums.InputMode
 import com.adt.game_of_life.model.bitmap.BitmapGenerator
 import com.adt.game_of_life.model.bitmap.IBitmapGenerator
-import com.adt.game_of_life.model.setting.ViewProperties
+import com.adt.game_of_life.model.dto.BoardProperties
+import com.adt.game_of_life.model.dto.CellProperties
+import com.adt.game_of_life.model.dto.ViewProperties
+import com.adt.game_of_life.model.input.IScreenToBoardConverter
+import com.adt.game_of_life.model.input.ScreenToBoardConverter
+import com.adt.game_of_life.util.containsPoint
 import com.adt.game_of_life.util.getBinding
 import com.adt.game_of_life.view.activity.contract.BackActivity
 import com.adt.game_of_life.viewmodel.GameViewModel
@@ -22,6 +30,10 @@ class GameActivity : BackActivity() {
     private val viewModel: GameViewModel by viewModel()
     private lateinit var bitmapGenerator: IBitmapGenerator
     private lateinit var photoView: PhotoViewAttacher
+    private lateinit var viewProperties: ViewProperties
+    private lateinit var boardProperties: BoardProperties
+    private lateinit var cellProperties: CellProperties
+    private lateinit var coordsConverter: IScreenToBoardConverter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +53,7 @@ class GameActivity : BackActivity() {
     private fun setListeners() {
         gameImageView.post {
             // Invoked when view is rendered so width and height are ready
-            val viewProperties = ViewProperties(gameImageView.width, gameImageView.height)
-            bitmapGenerator = BitmapGenerator(get(), viewProperties)
+            initializeModels()
             setObservers()
         }
 
@@ -55,7 +66,7 @@ class GameActivity : BackActivity() {
         })
 
         speedButton.setOnClickListener {
-            speedSeekBar.visibility = if (speedSeekBar.visibility == View.GONE) View.VISIBLE else View.GONE
+            speedSeekBar.visibility = if (speedSeekBar.visibility == View.INVISIBLE) View.VISIBLE else View.INVISIBLE
         }
     }
 
@@ -63,6 +74,62 @@ class GameActivity : BackActivity() {
         viewModel.board.observe(this, Observer { board ->
             board?.let { updateVisualization(it) }
         })
+
+        viewModel.inputMode.observe(this, Observer { mode ->
+            if (mode != null) {
+                when (mode) {
+                    InputMode.REVIVE -> setReviveMode()
+                    InputMode.ZOOM -> setZoomMode()
+                    InputMode.KILL -> setKillMode()
+                }
+            }
+        })
+    }
+
+    private fun setKillMode() {
+        setGameImageViewListener { x, y -> viewModel.killCell(x, y) }
+        setDrawable(swapImageView, R.drawable.ic_delete_white_24dp)
+    }
+
+    private fun setReviveMode() {
+        setGameImageViewListener { x, y -> viewModel.reviveCell(x, y) }
+        setDrawable(swapImageView, R.drawable.ic_create_white_24dp)
+    }
+
+    private fun setZoomMode() {
+        val matrix = photoView.displayMatrix
+        photoView = PhotoViewAttacher(gameImageView)
+        photoView.displayMatrix = matrix
+        setDrawable(swapImageView, R.drawable.ic_zoom_out_map_white_24dp)
+    }
+
+    private fun setGameImageViewListener(callback: (Int, Int) -> Unit) {
+        gameImageView.setOnTouchListener { _, event ->
+            event?.let {
+                if (gameImageView.containsPoint(it.x, it.y)) {
+                    val x = it.x.toInt()
+                    val y = it.y.toInt()
+                    val scale = photoView.scale
+                    val rect = photoView.displayRect
+                    val toBoard = coordsConverter.convert(x, y, scale, rect)
+                    callback(toBoard.x, toBoard.y)
+                }
+            }
+            true
+        }
+    }
+
+    private fun setDrawable(view: AppCompatImageView, drawable: Int) {
+        val drawable = ContextCompat.getDrawable(this, drawable)
+        view.setImageDrawable(drawable)
+    }
+
+    private fun initializeModels() {
+        viewProperties = ViewProperties(gameImageView.width, gameImageView.height)
+        boardProperties = viewModel.boardProperties
+        cellProperties = CellProperties(viewProperties, boardProperties)
+        coordsConverter = ScreenToBoardConverter(cellProperties)
+        bitmapGenerator = BitmapGenerator(get(), cellProperties, viewProperties)
     }
 
     private fun updateVisualization(board: Array<Array<Int?>>) {
@@ -76,7 +143,7 @@ class GameActivity : BackActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         viewModel.destroy()
+        super.onBackPressed()
     }
 }

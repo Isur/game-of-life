@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.Button
 import com.adt.game_of_life.R
 import com.adt.game_of_life.model.dto.ActivityStartModel
@@ -53,4 +54,8 @@ fun SharedPreferences.edit(callback: (SharedPreferences.Editor) -> Unit) {
     val editor = this.edit()
     callback(editor)
     editor.commit()
+}
+
+fun View.containsPoint(x: Float, y: Float): Boolean {
+    return x > 0 && x < width && y > 0 && y < height
 }
