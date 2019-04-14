@@ -2,6 +2,7 @@ package com.adt.game_of_life.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.adt.game_of_life.enums.InputMode
 import com.adt.game_of_life.model.algorithm.IConwayAlgorithm
 import com.adt.game_of_life.model.dto.BoardProperties
 import com.adt.game_of_life.model.simulation.ILooper
@@ -18,9 +19,11 @@ class GameViewModel(
         get() = conwayAlgorithm.boardProperties
     val speed: Int
         get() = speedModel.percentageSpeed
+    val inputMode = MutableLiveData<InputMode>()
 
     init {
         board.value = conwayAlgorithm.gameBoard
+        inputMode.value = InputMode.REVIVE
     }
 
     fun step() {
@@ -38,6 +41,13 @@ class GameViewModel(
         val needRedraw = conwayAlgorithm.reviveCell(x, y)
         if (needRedraw)
             board.value = conwayAlgorithm.gameBoard
+    }
+
+    fun switchInputMode() {
+        if (inputMode.value == InputMode.REVIVE)
+            inputMode.value = InputMode.ZOOM
+        else
+            inputMode.value = InputMode.REVIVE
     }
 
     fun destroy() {

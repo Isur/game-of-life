@@ -3,9 +3,11 @@ package com.adt.game_of_life.view.activity
 import abak.tr.com.boxedverticalseekbar.BoxedVertical
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.View
 import com.adt.game_of_life.R
 import com.adt.game_of_life.databinding.ActivityGameBinding
+import com.adt.game_of_life.enums.InputMode
 import com.adt.game_of_life.model.bitmap.BitmapGenerator
 import com.adt.game_of_life.model.bitmap.IBitmapGenerator
 import com.adt.game_of_life.model.dto.BoardProperties
@@ -50,11 +52,7 @@ class GameActivity : BackActivity() {
     private fun setListeners() {
         gameImageView.post {
             // Invoked when view is rendered so width and height are ready
-            viewProperties = ViewProperties(gameImageView.width, gameImageView.height)
-            boardProperties = viewModel.boardProperties
-            cellProperties = CellProperties(viewProperties, boardProperties)
-            coordsConverter = ScreenToBoardConverter(cellProperties)
-            bitmapGenerator = BitmapGenerator(get(), cellProperties, viewProperties)
+            initializeModels()
             setObservers()
         }
 
@@ -70,29 +68,8 @@ class GameActivity : BackActivity() {
             speedSeekBar.visibility = if (speedSeekBar.visibility == View.INVISIBLE) View.VISIBLE else View.INVISIBLE
         }
 
-        swapImageView.tag = "1" //todo: change to observable vm variable
         swapImageView.setOnClickListener {
-            if (swapImageView.tag == "1") {
-                swapImageView.tag = "2"
-                gameImageView.setOnTouchListener { _, event ->
-                    event?.let {
-                        if (gameImageView.containsPoint(it.x, it.y)) {
-                            val x = it.x.toInt()
-                            val y = it.y.toInt()
-                            val scale = photoView.scale
-                            val rect = photoView.displayRect
-                            val toBoard = coordsConverter.convert(x, y, scale, rect)
-                            viewModel.reviveCell(toBoard.x, toBoard.y)
-                        }
-                    }
-                    true
-                }
-            } else {
-                swapImageView.tag = "1"
-                val matrix = photoView.displayMatrix
-                photoView = PhotoViewAttacher(gameImageView)
-                photoView.displayMatrix = matrix
-            }
+            viewModel.switchInputMode()
         }
     }
 
@@ -100,6 +77,49 @@ class GameActivity : BackActivity() {
         viewModel.board.observe(this, Observer { board ->
             board?.let { updateVisualization(it) }
         })
+
+        viewModel.inputMode.observe(this, Observer { mode ->
+            if (mode != null) {
+                when (mode) {
+                    InputMode.REVIVE -> setReviveMode()
+                    InputMode.ZOOM -> setZoomMode()
+                }
+            }
+        })
+    }
+
+    private fun setReviveMode() {
+        gameImageView.setOnTouchListener { _, event ->
+            event?.let {
+                if (gameImageView.containsPoint(it.x, it.y)) {
+                    val x = it.x.toInt()
+                    val y = it.y.toInt()
+                    val scale = photoView.scale
+                    val rect = photoView.displayRect
+                    val toBoard = coordsConverter.convert(x, y, scale, rect)
+                    viewModel.reviveCell(toBoard.x, toBoard.y)
+                }
+            }
+            true
+        }
+        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_create_white_24dp)
+        swapImageView.setImageDrawable(drawable)
+    }
+
+    private fun setZoomMode() {
+        val matrix = photoView.displayMatrix
+        photoView = PhotoViewAttacher(gameImageView)
+        photoView.displayMatrix = matrix
+        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_zoom_out_map_white_24dp)
+        swapImageView.setImageDrawable(drawable)
+    }
+
+    private fun initializeModels() {
+        viewProperties = ViewProperties(gameImageView.width, gameImageView.height)
+        boardProperties = viewModel.boardProperties
+        cellProperties = CellProperties(viewProperties, boardProperties)
+        coordsConverter = ScreenToBoardConverter(cellProperties)
+        bitmapGenerator = BitmapGenerator(get(), cellProperties, viewProperties)
     }
 
     private fun updateVisualization(board: Array<Array<Int?>>) {
@@ -113,7 +133,7 @@ class GameActivity : BackActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         viewModel.destroy()
+        super.onBackPressed()
     }
 }
