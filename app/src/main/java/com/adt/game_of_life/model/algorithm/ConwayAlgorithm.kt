@@ -7,6 +7,7 @@ class ConwayAlgorithm constructor(
     private val gameRules: GameRules,
     override var gameBoard: Array<Array<Int?>>
 ) : IConwayAlgorithm {
+
     private val gameBoardSize: Int = gameBoard.size
     private val conwayTransitionGameBoard: Array<Array<Int?>> = gameBoard.copy()
     override val boardProperties: BoardProperties
@@ -68,11 +69,19 @@ class ConwayAlgorithm constructor(
     }
 
     override fun reviveCell(x: Int, y: Int): Boolean {
-        return if (gameBoard[y][x] == 1) {
+        return setCellState(x, y, 1)
+    }
+
+    override fun killCell(x: Int, y: Int): Boolean {
+        return setCellState(x, y, 0)
+    }
+
+    private fun setCellState(x: Int, y: Int, state: Int): Boolean {
+        return if (gameBoard[y][x] == state) {
             false
         } else {
-            gameBoard[y][x] = 1
-            conwayTransitionGameBoard[y][x] = 1
+            gameBoard[y][x] = state
+            conwayTransitionGameBoard[y][x] = state
             true
         }
     }

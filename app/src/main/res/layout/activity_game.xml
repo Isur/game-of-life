@@ -72,7 +72,8 @@
                 app:layout_constraintStart_toEndOf="@id/speedButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 style="@style/gameButtonStyle"
-                app:srcCompat="@drawable/ic_create_white_24dp"/>
+                app:srcCompat="@drawable/ic_create_white_24dp"
+                android:onClick="@{() -> vm.switchInputMode()}"/>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -4,6 +4,7 @@ import abak.tr.com.boxedverticalseekbar.BoxedVertical
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AppCompatImageView
 import android.view.View
 import com.adt.game_of_life.R
 import com.adt.game_of_life.databinding.ActivityGameBinding
@@ -67,10 +68,6 @@ class GameActivity : BackActivity() {
         speedButton.setOnClickListener {
             speedSeekBar.visibility = if (speedSeekBar.visibility == View.INVISIBLE) View.VISIBLE else View.INVISIBLE
         }
-
-        swapImageView.setOnClickListener {
-            viewModel.switchInputMode()
-        }
     }
 
     private fun setObservers() {
@@ -83,12 +80,30 @@ class GameActivity : BackActivity() {
                 when (mode) {
                     InputMode.REVIVE -> setReviveMode()
                     InputMode.ZOOM -> setZoomMode()
+                    InputMode.KILL -> setKillMode()
                 }
             }
         })
     }
 
+    private fun setKillMode() {
+        setGameImageViewListener { x, y -> viewModel.killCell(x, y) }
+        setDrawable(swapImageView, R.drawable.ic_delete_white_24dp)
+    }
+
     private fun setReviveMode() {
+        setGameImageViewListener { x, y -> viewModel.reviveCell(x, y) }
+        setDrawable(swapImageView, R.drawable.ic_create_white_24dp)
+    }
+
+    private fun setZoomMode() {
+        val matrix = photoView.displayMatrix
+        photoView = PhotoViewAttacher(gameImageView)
+        photoView.displayMatrix = matrix
+        setDrawable(swapImageView, R.drawable.ic_zoom_out_map_white_24dp)
+    }
+
+    private fun setGameImageViewListener(callback: (Int, Int) -> Unit) {
         gameImageView.setOnTouchListener { _, event ->
             event?.let {
                 if (gameImageView.containsPoint(it.x, it.y)) {
@@ -97,21 +112,16 @@ class GameActivity : BackActivity() {
                     val scale = photoView.scale
                     val rect = photoView.displayRect
                     val toBoard = coordsConverter.convert(x, y, scale, rect)
-                    viewModel.reviveCell(toBoard.x, toBoard.y)
+                    callback(toBoard.x, toBoard.y)
                 }
             }
             true
         }
-        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_create_white_24dp)
-        swapImageView.setImageDrawable(drawable)
     }
 
-    private fun setZoomMode() {
-        val matrix = photoView.displayMatrix
-        photoView = PhotoViewAttacher(gameImageView)
-        photoView.displayMatrix = matrix
-        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_zoom_out_map_white_24dp)
-        swapImageView.setImageDrawable(drawable)
+    private fun setDrawable(view: AppCompatImageView, drawable: Int) {
+        val drawable = ContextCompat.getDrawable(this, drawable)
+        view.setImageDrawable(drawable)
     }
 
     private fun initializeModels() {

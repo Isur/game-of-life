@@ -39,15 +39,20 @@ class GameViewModel(
 
     fun reviveCell(x: Int, y: Int) {
         val needRedraw = conwayAlgorithm.reviveCell(x, y)
-        if (needRedraw)
-            board.value = conwayAlgorithm.gameBoard
+        if (needRedraw) board.value = conwayAlgorithm.gameBoard
+    }
+
+    fun killCell(x: Int, y: Int) {
+        val needRedraw = conwayAlgorithm.killCell(x, y)
+        if (needRedraw) board.value = conwayAlgorithm.gameBoard
     }
 
     fun switchInputMode() {
-        if (inputMode.value == InputMode.REVIVE)
-            inputMode.value = InputMode.ZOOM
-        else
-            inputMode.value = InputMode.REVIVE
+        when (inputMode.value) {
+            InputMode.ZOOM -> inputMode.value = InputMode.REVIVE
+            InputMode.REVIVE -> inputMode.value = InputMode.KILL
+            InputMode.KILL -> inputMode.value = InputMode.ZOOM
+        }
     }
 
     fun destroy() {
