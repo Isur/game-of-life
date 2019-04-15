@@ -3,13 +3,13 @@ package com.adt.game_of_life.model.algorithm
 import com.adt.game_of_life.model.dto.BoardProperties
 import com.adt.game_of_life.model.setting.GameRules
 
-class ConwayAlgorithm constructor(
+open class ConwayAlgorithm constructor(
     private val gameRules: GameRules,
     override var gameBoard: Array<Array<Int?>>
 ) : IConwayAlgorithm {
 
     private val gameBoardSize: Int = gameBoard.size
-    private val conwayTransitionGameBoard: Array<Array<Int?>> = gameBoard.copy()
+    protected val conwayTransitionGameBoard: Array<Array<Int?>> = gameBoard.copy()
     override val boardProperties: BoardProperties
         get() = BoardProperties(gameBoard.size, gameBoard[0].size)
 
@@ -66,24 +66,6 @@ class ConwayAlgorithm constructor(
         }
 
         return liveNeighbouringCellsCounter
-    }
-
-    override fun reviveCell(x: Int, y: Int): Boolean {
-        return setCellState(x, y, 1)
-    }
-
-    override fun killCell(x: Int, y: Int): Boolean {
-        return setCellState(x, y, 0)
-    }
-
-    private fun setCellState(x: Int, y: Int, state: Int): Boolean {
-        return if (gameBoard[y][x] == state) {
-            false
-        } else {
-            gameBoard[y][x] = state
-            conwayTransitionGameBoard[y][x] = state
-            true
-        }
     }
 
     private fun Array<Array<Int?>>.copy() = Array(gameBoardSize) { get(it).clone() }
