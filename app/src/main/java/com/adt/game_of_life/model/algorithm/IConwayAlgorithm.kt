@@ -6,6 +6,4 @@ interface IConwayAlgorithm {
     val gameBoard: Array<Array<Int?>>
     val boardProperties: BoardProperties
     fun gameStep(): Array<Array<Int?>>
-    fun reviveCell(x: Int, y: Int): Boolean
-    fun killCell(x: Int, y: Int): Boolean
 }

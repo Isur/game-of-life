@@ -1,8 +1,9 @@
 package com.adt.game_of_life
 
 import android.app.Application
-import com.adt.game_of_life.model.algorithm.ConwayAlgorithm
+import com.adt.game_of_life.model.algorithm.IBoardManipulator
 import com.adt.game_of_life.model.algorithm.IConwayAlgorithm
+import com.adt.game_of_life.model.algorithm.ManipulatorConwayAlgorithm
 import com.adt.game_of_life.model.pref.IColorsPref
 import com.adt.game_of_life.model.pref.IGameRulesPref
 import com.adt.game_of_life.model.pref.SharedPrefAccess
@@ -45,13 +46,15 @@ class GameOfLifeApplication : Application() {
             single { GameColors(get()) }
 
             single { Array(50) { Array<Int?>(50) { Random.nextInt(0, 2) } } }
-            single<IConwayAlgorithm> { ConwayAlgorithm(get(), get()) }
+            single {
+                ManipulatorConwayAlgorithm(get(), get())
+            } bind IBoardManipulator::class bind IConwayAlgorithm::class
 
             single<ILooper> { LooperImp() }
             factory { SpeedModel(10000) }
 
             viewModel { MenuViewModel() }
-            viewModel { GameViewModel(get(), get(), get()) }
+            viewModel { GameViewModel(get(), get(), get(), get()) }
             viewModel { LoadViewModel() }
             viewModel { SettingsViewModel(get(), get()) }
         }
