@@ -39,9 +39,9 @@
     </style>
 
     <style name="gameButtonStyle" parent="Base.Widget.AppCompat.ImageButton">
-        <item name="android:background">@color/colorPrimary</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/load_item_shape</item>
     </style>
 
     <style name="loadViewTextViewStyle" parent="android:Widget.TextView">
