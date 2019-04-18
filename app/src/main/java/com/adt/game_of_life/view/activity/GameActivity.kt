@@ -37,7 +37,7 @@ class GameActivity : BackActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = getBinding<ActivityGameBinding>(this, R.layout.activity_game)
+        val binding = getBinding<ActivityGameBinding>(R.layout.activity_game)
         binding.vm = viewModel
 
         setupView()

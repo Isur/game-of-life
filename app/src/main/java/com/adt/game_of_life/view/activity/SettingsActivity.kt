@@ -20,7 +20,7 @@ class SettingsActivity : BackActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = getBinding<ActivitySettingsBinding>(this, R.layout.activity_settings)
+        val binding = getBinding<ActivitySettingsBinding>(R.layout.activity_settings)
         binding.vm = viewModel
 
         setTitle(R.string.settings_activity_title)

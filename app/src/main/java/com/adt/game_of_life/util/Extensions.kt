@@ -1,6 +1,5 @@
 package com.adt.game_of_life.util
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -21,8 +20,8 @@ fun AppCompatActivity.startActivity(model: ActivityStartModel) {
     startActivity(intent)
 }
 
-fun <T : ViewDataBinding> AppCompatActivity.getBinding(activity: Activity, layout: Int): T {
-    return DataBindingUtil.setContentView(activity, layout)
+fun <T : ViewDataBinding> AppCompatActivity.getBinding(layout: Int): T {
+    return DataBindingUtil.setContentView(this, layout)
 }
 
 fun Button.showColorPicker(context: Context, initialColor: Int, callback: (Int) -> Unit) {

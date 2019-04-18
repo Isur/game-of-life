@@ -17,7 +17,7 @@ class LoadActivity : BackActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = getBinding<ActivityLoadBinding>(this, R.layout.activity_load)
+        val binding = getBinding<ActivityLoadBinding>(R.layout.activity_load)
         binding.vm = viewModel
 
         setTitle(R.string.load_activity_title)
