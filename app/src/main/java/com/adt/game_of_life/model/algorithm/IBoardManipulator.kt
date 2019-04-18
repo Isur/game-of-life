@@ -5,4 +5,5 @@ interface IBoardManipulator {
     fun killCell(x: Int, y: Int): Boolean
     fun clear(): Array<Array<Int?>>
     fun randomize(): Array<Array<Int?>>
+    fun setBoard(board: Array<Array<Int?>>)
 }

@@ -10,7 +10,6 @@ import com.adt.game_of_life.view.adapter.LoadAdapter
 import com.adt.game_of_life.viewmodel.LoadViewModel
 import kotlinx.android.synthetic.main.activity_load.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class LoadActivity : BackActivity() {
 
@@ -27,7 +26,7 @@ class LoadActivity : BackActivity() {
     }
 
     private fun initializeRecyclerView() {
-        val adapter = LoadAdapter(viewModel.files) { Timber.e(it) }
+        val adapter = LoadAdapter(viewModel.files) { viewModel.load(it) }
         loadRecyclerView.layoutManager = LinearLayoutManager(this)
         loadRecyclerView.adapter = adapter
     }

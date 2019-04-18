@@ -1,9 +1,7 @@
 package com.adt.game_of_life.model.file
 
 import android.app.Application
-import java.io.File
-import java.io.FileOutputStream
-import java.io.ObjectOutputStream
+import java.io.*
 
 class FileManager(context: Application) : IFileManager {
 
@@ -23,15 +21,26 @@ class FileManager(context: Application) : IFileManager {
     override fun addFile(filename: String, content: Array<Array<Int?>>) {
         val isUnique = !getFiles().any { it.name == filename }
         if (isUnique) {
-            val filenameWithExtension = "$filename.$GAME_OF_LIFE_EXTENSION"
-            val fos = FileOutputStream(File(root.path, filenameWithExtension))
+            val file = getFile(filename)
+            val fos = FileOutputStream(file)
             val oos = ObjectOutputStream(fos)
             oos.writeObject(content)
         }
     }
 
     override fun getContent(filename: String): Array<Array<Int?>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val file = getFile(filename)
+        val fis = FileInputStream(file)
+        val ois = ObjectInputStream(fis)
+        return ois.readObject() as Array<Array<Int?>>
+    }
+
+    private fun getFile(filename: String): File {
+        return File(root.path, filename.addExtension())
+    }
+
+    private fun String.addExtension(): String {
+        return "$this.$GAME_OF_LIFE_EXTENSION"
     }
 
     private companion object {
