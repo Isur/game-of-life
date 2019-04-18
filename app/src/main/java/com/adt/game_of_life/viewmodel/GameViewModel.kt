@@ -6,6 +6,7 @@ import com.adt.game_of_life.enums.InputMode
 import com.adt.game_of_life.model.algorithm.IBoardManipulator
 import com.adt.game_of_life.model.algorithm.IConwayAlgorithm
 import com.adt.game_of_life.model.dto.BoardProperties
+import com.adt.game_of_life.model.file.IFileManager
 import com.adt.game_of_life.model.simulation.ILooper
 import com.adt.game_of_life.model.simulation.SpeedModel
 
@@ -13,7 +14,8 @@ class GameViewModel(
     private val conwayAlgorithm: IConwayAlgorithm,
     private val boardManipulator: IBoardManipulator,
     private val looper: ILooper,
-    private val speedModel: SpeedModel
+    private val speedModel: SpeedModel,
+    private val fileManager: IFileManager
 ) : ViewModel() {
 
     val board = MutableLiveData<Array<Array<Int?>>>()
@@ -63,6 +65,10 @@ class GameViewModel(
 
     fun randomize() {
         board.value = boardManipulator.randomize()
+    }
+
+    fun save(filename: String) {
+        fileManager.addFile(filename, conwayAlgorithm.gameBoard)
     }
 
     fun destroy() {

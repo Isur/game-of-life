@@ -11,6 +11,7 @@ import com.adt.game_of_life.databinding.ActivityGameBinding
 import com.adt.game_of_life.enums.InputMode
 import com.adt.game_of_life.model.bitmap.BitmapGenerator
 import com.adt.game_of_life.model.bitmap.IBitmapGenerator
+import com.adt.game_of_life.model.dialog.IDialogManager
 import com.adt.game_of_life.model.dto.BoardProperties
 import com.adt.game_of_life.model.dto.CellProperties
 import com.adt.game_of_life.model.dto.ViewProperties
@@ -22,6 +23,7 @@ import com.adt.game_of_life.view.activity.contract.BackActivity
 import com.adt.game_of_life.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.activity_game.*
 import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import uk.co.senab.photoview.PhotoViewAttacher
 
@@ -34,6 +36,7 @@ class GameActivity : BackActivity() {
     private lateinit var boardProperties: BoardProperties
     private lateinit var cellProperties: CellProperties
     private lateinit var coordsConverter: IScreenToBoardConverter
+    private val dialogManager: IDialogManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +71,8 @@ class GameActivity : BackActivity() {
         speedButton.setOnClickListener {
             speedSeekBar.visibility = if (speedSeekBar.visibility == View.INVISIBLE) View.VISIBLE else View.INVISIBLE
         }
+
+        saveButton.setOnClickListener { handleSaveDialog() }
     }
 
     private fun setObservers() {
@@ -83,6 +88,17 @@ class GameActivity : BackActivity() {
                     InputMode.KILL -> setKillMode()
                 }
             }
+        })
+    }
+
+    private fun handleSaveDialog() {
+        val currentSpeed = viewModel.speed
+        viewModel.changeSpeed(0)
+        dialogManager.showInputDialog(this, {
+            viewModel.save(it)
+            viewModel.changeSpeed(currentSpeed)
+        }, {
+            viewModel.changeSpeed(currentSpeed)
         })
     }
 
