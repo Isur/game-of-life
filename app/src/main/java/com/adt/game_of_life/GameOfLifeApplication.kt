@@ -4,6 +4,8 @@ import android.app.Application
 import com.adt.game_of_life.model.algorithm.IBoardManipulator
 import com.adt.game_of_life.model.algorithm.IConwayAlgorithm
 import com.adt.game_of_life.model.algorithm.ManipulatorConwayAlgorithm
+import com.adt.game_of_life.model.file.FileManager
+import com.adt.game_of_life.model.file.IFileManager
 import com.adt.game_of_life.model.pref.IColorsPref
 import com.adt.game_of_life.model.pref.IGameRulesPref
 import com.adt.game_of_life.model.pref.SharedPrefAccess
@@ -53,9 +55,11 @@ class GameOfLifeApplication : Application() {
             single<ILooper> { LooperImp() }
             factory { SpeedModel(10000) }
 
+            single<IFileManager> { FileManager(this@GameOfLifeApplication) }
+
             viewModel { MenuViewModel() }
             viewModel { GameViewModel(get(), get(), get(), get()) }
-            viewModel { LoadViewModel() }
+            viewModel { LoadViewModel(get()) }
             viewModel { SettingsViewModel(get(), get()) }
         }
     }
