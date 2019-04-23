@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import com.adt.game_of_life.R
 
 class LoadAdapter(
-    private var files: List<String>,
     private val onItemClick: (String) -> Unit
 ) : RecyclerView.Adapter<LoadViewHolder>() {
+
+    private var files = listOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoadViewHolder {
         val itemView = LayoutInflater.from(parent.context)

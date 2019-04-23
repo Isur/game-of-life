@@ -1,5 +1,6 @@
 package com.adt.game_of_life.view.activity
 
+import android.arch.lifecycle.Observer
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -32,10 +33,20 @@ class LoadActivity : BackActivity() {
         setTitle(R.string.load_activity_title)
 
         initializeRecyclerView()
+        setObservers()
+    }
+
+    private fun setObservers() {
+        viewModel.files.observe(this, Observer { files ->
+            files?.let {
+                adapter.setElements(it)
+                adapter.notifyDataSetChanged()
+            }
+        })
     }
 
     private fun initializeRecyclerView() {
-        adapter = LoadAdapter(viewModel.files) { filename -> showLoadDialog(filename) }
+        adapter = LoadAdapter { filename -> showLoadDialog(filename) }
         val itemTouchHelper = createTouchHelper()
         loadRecyclerView.layoutManager = LinearLayoutManager(this)
         loadRecyclerView.adapter = adapter
@@ -62,15 +73,8 @@ class LoadActivity : BackActivity() {
     private fun showDeleteDialog(filename: String) {
         dialogManager.showDeleteSaveDialog(this, {
             viewModel.delete(filename)
-            adapter.setElements(viewModel.files)
-            reload()
         }, {
-            reload()
+            adapter.notifyDataSetChanged()
         })
-    }
-
-    private fun reload() {
-        adapter.notifyDataSetChanged()
-        //loadRecyclerView.startLayoutAnimation()
     }
 }
