@@ -18,8 +18,8 @@ class DialogManager(private val fileManager: IFileManager) : IDialogManager {
         LovelyTextInputDialog(context, style)
             .setTopColorRes(R.color.colorAccent)
             .setTitle(R.string.dialog_save_message)
-            .setInputFilter(R.string.filename_taken) { text ->
-                !fileManager.getFilenames().contains(text)
+            .setInputFilter(R.string.filename_taken_or_empty) { text ->
+                text.isNotBlank() && !fileManager.getFilenames().contains(text)
             }
             .setConfirmButton(R.string.dialog_ok_button) { text ->
                 onConfirmButton(text)

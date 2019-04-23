@@ -28,7 +28,7 @@
         or, for advanced players, by creating patterns with particular properties.\n
     </string>
     <string name="authors_text">Authors:\nArtur Bednarczyk\nDawid Grajewski\nTomasz Januszek</string>
-    <string name="filename_taken">This filename is already taken</string>
+    <string name="filename_taken_or_empty">Filename is already taken or empty</string>
     <string name="dialog_save_message">Name your save file</string>
     <string name="dialog_delete_title">Delete</string>
     <string name="dialog_delete_message">Save will be removed permanently</string>
