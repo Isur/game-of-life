@@ -2,6 +2,7 @@ package com.adt.game_of_life.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.adt.game_of_life.R
 import com.adt.game_of_life.enums.InputMode
 import com.adt.game_of_life.model.algorithm.IBoardManipulator
 import com.adt.game_of_life.model.algorithm.IConwayAlgorithm
@@ -9,6 +10,7 @@ import com.adt.game_of_life.model.dto.BoardProperties
 import com.adt.game_of_life.model.file.IFileManager
 import com.adt.game_of_life.model.simulation.ILooper
 import com.adt.game_of_life.model.simulation.SpeedModel
+import com.adt.game_of_life.model.snackbar.SnackBarModel
 
 class GameViewModel(
     private val conwayAlgorithm: IConwayAlgorithm,
@@ -19,11 +21,13 @@ class GameViewModel(
 ) : ViewModel() {
 
     val board = MutableLiveData<Array<Array<Int?>>>()
+    val inputMode = MutableLiveData<InputMode>()
+    val snackBar = MutableLiveData<SnackBarModel>()
+
     val boardProperties: BoardProperties
         get() = conwayAlgorithm.boardProperties
     val speed: Int
         get() = speedModel.percentageSpeed
-    val inputMode = MutableLiveData<InputMode>()
 
     init {
         board.value = conwayAlgorithm.gameBoard
@@ -69,6 +73,7 @@ class GameViewModel(
 
     fun save(filename: String) {
         fileManager.addFile(filename, conwayAlgorithm.gameBoard)
+        snackBar.value = SnackBarModel(R.string.save_saved, R.color.success)
     }
 
     fun destroy() {

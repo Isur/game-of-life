@@ -35,4 +35,7 @@
     <string name="dialog_load_title">Load</string>
     <string name="dialog_load_message">Current state will be overwritten</string>
     <string name="dialog_save_title">Save</string>
+    <string name="save_deleted">Save successfully removed</string>
+    <string name="save_loaded">Save successfully loaded</string>
+    <string name="save_saved">State successfully saved</string>
 </resources>

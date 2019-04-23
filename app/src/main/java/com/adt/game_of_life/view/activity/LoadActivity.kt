@@ -9,6 +9,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import com.adt.game_of_life.R
 import com.adt.game_of_life.databinding.ActivityLoadBinding
 import com.adt.game_of_life.model.dialog.IDialogManager
+import com.adt.game_of_life.model.snackbar.ISnackBarManager
 import com.adt.game_of_life.util.getBinding
 import com.adt.game_of_life.view.activity.contract.BackActivity
 import com.adt.game_of_life.view.adapter.LoadAdapter
@@ -22,6 +23,7 @@ class LoadActivity : BackActivity() {
 
     private val viewModel: LoadViewModel by viewModel()
     private val dialogManager: IDialogManager by inject()
+    private val snackBarManager: ISnackBarManager by inject()
 
     private lateinit var adapter: LoadAdapter
 
@@ -41,6 +43,12 @@ class LoadActivity : BackActivity() {
             files?.let {
                 adapter.setElements(it)
                 adapter.notifyDataSetChanged()
+            }
+        })
+
+        viewModel.snackBar.observe(this, Observer { snackbar ->
+            snackbar?.let {
+                snackBarManager.show(loadRootView, it)
             }
         })
     }

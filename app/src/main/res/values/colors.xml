@@ -8,4 +8,7 @@
     <color name="lightGray">#878787</color>
     <color name="darkWhite">#ccc</color>
     <color name="white">#fff</color>
+
+    <color name="success">#39C16C</color>
+    <color name="error">#D8000C</color>
 </resources>

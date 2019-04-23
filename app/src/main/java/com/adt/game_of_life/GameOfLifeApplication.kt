@@ -18,6 +18,8 @@ import com.adt.game_of_life.model.setting.GameRules
 import com.adt.game_of_life.model.simulation.ILooper
 import com.adt.game_of_life.model.simulation.LooperImp
 import com.adt.game_of_life.model.simulation.SpeedModel
+import com.adt.game_of_life.model.snackbar.ISnackBarManager
+import com.adt.game_of_life.model.snackbar.SnackBarManager
 import com.adt.game_of_life.viewmodel.GameViewModel
 import com.adt.game_of_life.viewmodel.LoadViewModel
 import com.adt.game_of_life.viewmodel.MenuViewModel
@@ -60,6 +62,8 @@ class GameOfLifeApplication : Application() {
             single<IFileManager> { FileManager(this@GameOfLifeApplication) }
 
             single<IDialogManager> { DialogManager(get()) }
+
+            single<ISnackBarManager> { SnackBarManager() }
 
             viewModel { MenuViewModel() }
             viewModel { GameViewModel(get(), get(), get(), get(), get()) }
