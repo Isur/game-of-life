@@ -4,8 +4,8 @@ import android.app.Application
 import com.adt.game_of_life.model.algorithm.IBoardManipulator
 import com.adt.game_of_life.model.algorithm.IConwayAlgorithm
 import com.adt.game_of_life.model.algorithm.ManipulatorConwayAlgorithm
+import com.adt.game_of_life.model.dialog.DialogManager
 import com.adt.game_of_life.model.dialog.IDialogManager
-import com.adt.game_of_life.model.dialog.SaveDialogManager
 import com.adt.game_of_life.model.file.FileManager
 import com.adt.game_of_life.model.file.IFileManager
 import com.adt.game_of_life.model.pref.IColorsPref
@@ -59,7 +59,7 @@ class GameOfLifeApplication : Application() {
 
             single<IFileManager> { FileManager(this@GameOfLifeApplication) }
 
-            single<IDialogManager> { SaveDialogManager(get()) }
+            single<IDialogManager> { DialogManager(get()) }
 
             viewModel { MenuViewModel() }
             viewModel { GameViewModel(get(), get(), get(), get(), get()) }

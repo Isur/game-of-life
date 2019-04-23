@@ -29,5 +29,10 @@
     </string>
     <string name="authors_text">Authors:\nArtur Bednarczyk\nDawid Grajewski\nTomasz Januszek</string>
     <string name="filename_taken">This filename is already taken</string>
-    <string name="dialog_save_title">Name your save file</string>
+    <string name="dialog_save_message">Name your save file</string>
+    <string name="dialog_delete_title">Delete</string>
+    <string name="dialog_delete_message">Save will be removed permanently</string>
+    <string name="dialog_load_title">Load</string>
+    <string name="dialog_load_message">Current state will be overwritten</string>
+    <string name="dialog_save_title">Save</string>
 </resources>

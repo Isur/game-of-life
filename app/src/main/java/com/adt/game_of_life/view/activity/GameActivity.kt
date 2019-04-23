@@ -94,7 +94,7 @@ class GameActivity : BackActivity() {
     private fun handleSaveDialog() {
         val currentSpeed = viewModel.speed
         viewModel.changeSpeed(0)
-        dialogManager.showInputDialog(this, {
+        dialogManager.showSaveBoardDialog(this, {
             viewModel.save(it)
             viewModel.changeSpeed(currentSpeed)
         }, {
