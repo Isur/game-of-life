@@ -8,12 +8,14 @@ import com.yarolegovich.lovelydialog.LovelyTextInputDialog
 
 class DialogManager(private val fileManager: IFileManager) : IDialogManager {
 
+    private val style = R.style.defaultDialogStyle
+
     override fun showSaveBoardDialog(
         context: Context,
         onConfirmButton: (String) -> Unit,
         onNegativeButton: () -> Unit
     ) {
-        LovelyTextInputDialog(context)
+        LovelyTextInputDialog(context, style)
             .setTopColorRes(R.color.colorAccent)
             .setTitle(R.string.dialog_save_message)
             .setInputFilter(R.string.filename_taken) { text ->
@@ -34,7 +36,7 @@ class DialogManager(private val fileManager: IFileManager) : IDialogManager {
         onConfirmButton: () -> Unit,
         onNegativeButton: () -> Unit
     ) {
-        LovelyStandardDialog(context)
+        LovelyStandardDialog(context, style)
             .setTopColorRes(R.color.colorAccent)
             .setTitle(R.string.dialog_delete_message)
             .setPositiveButton(R.string.dialog_ok_button) {
@@ -52,7 +54,7 @@ class DialogManager(private val fileManager: IFileManager) : IDialogManager {
         onConfirmButton: () -> Unit,
         onNegativeButton: () -> Unit
     ) {
-        LovelyStandardDialog(context)
+        LovelyStandardDialog(context, style)
             .setTopColorRes(R.color.colorAccent)
             .setTitle(R.string.dialog_load_message)
             .setPositiveButton(R.string.dialog_ok_button) {
