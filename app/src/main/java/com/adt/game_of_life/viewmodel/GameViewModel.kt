@@ -7,6 +7,7 @@ import com.adt.game_of_life.enums.InputMode
 import com.adt.game_of_life.model.algorithm.IBoardManipulator
 import com.adt.game_of_life.model.algorithm.IConwayAlgorithm
 import com.adt.game_of_life.model.dto.BoardProperties
+import com.adt.game_of_life.model.event.SingleLiveEvent
 import com.adt.game_of_life.model.file.IFileManager
 import com.adt.game_of_life.model.simulation.ILooper
 import com.adt.game_of_life.model.simulation.SpeedModel
@@ -22,7 +23,7 @@ class GameViewModel(
 
     val board = MutableLiveData<Array<Array<Int?>>>()
     val inputMode = MutableLiveData<InputMode>()
-    val snackBar = MutableLiveData<SnackBarModel>()
+    val snackBar = SingleLiveEvent<SnackBarModel>()
 
     val boardProperties: BoardProperties
         get() = conwayAlgorithm.boardProperties
@@ -74,6 +75,20 @@ class GameViewModel(
     fun save(filename: String) {
         fileManager.addFile(filename, conwayAlgorithm.gameBoard)
         snackBar.value = SnackBarModel(R.string.save_saved, R.color.success)
+    }
+
+    fun permissionDenied() {
+        snackBar.value = SnackBarModel(R.string.storage_permission_required, R.color.error)
+    }
+
+    fun pause() {
+        speedModel.pause()
+        changeSpeed(0)
+    }
+
+    fun resume() {
+        val percentage = speedModel.resume()
+        changeSpeed(percentage)
     }
 
     fun destroy() {

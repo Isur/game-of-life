@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.adt.game_of_life.R
 import com.adt.game_of_life.model.algorithm.IBoardManipulator
+import com.adt.game_of_life.model.event.SingleLiveEvent
 import com.adt.game_of_life.model.file.IFileManager
 import com.adt.game_of_life.model.snackbar.SnackBarModel
 
@@ -13,7 +14,7 @@ class LoadViewModel(
 ) : ViewModel() {
 
     val files = MutableLiveData<List<String>>()
-    val snackBar = MutableLiveData<SnackBarModel>()
+    val snackBar = SingleLiveEvent<SnackBarModel>()
 
     init {
         files.value = fileManager.getFilenames()

@@ -1,6 +1,7 @@
 package com.adt.game_of_life.view.activity
 
 import abak.tr.com.boxedverticalseekbar.BoxedVertical
+import android.Manifest
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -21,6 +22,7 @@ import com.adt.game_of_life.model.snackbar.ISnackBarManager
 import com.adt.game_of_life.util.containsPoint
 import com.adt.game_of_life.util.getBinding
 import com.adt.game_of_life.view.activity.contract.BackActivity
+import com.adt.game_of_life.view.activity.contract.IPermissionActivity
 import com.adt.game_of_life.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.activity_game.*
 import org.koin.android.ext.android.get
@@ -28,7 +30,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import uk.co.senab.photoview.PhotoViewAttacher
 
-class GameActivity : BackActivity() {
+class GameActivity : BackActivity(), IPermissionActivity {
 
     private val viewModel: GameViewModel by viewModel()
     private lateinit var bitmapGenerator: IBitmapGenerator
@@ -100,14 +102,25 @@ class GameActivity : BackActivity() {
     }
 
     private fun handleSaveDialog() {
-        val currentSpeed = viewModel.speed
-        viewModel.changeSpeed(0)
-        dialogManager.showSaveBoardDialog(this, {
-            viewModel.save(it)
-            viewModel.changeSpeed(currentSpeed)
+        viewModel.pause()
+        dialogManager.showSaveBoardDialog(this, { filename ->
+            handleWritePermission(filename)
         }, {
-            viewModel.changeSpeed(currentSpeed)
+            viewModel.resume()
         })
+    }
+
+    private fun handleWritePermission(filename: String) {
+        checkPermission(this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            onGranted = {
+                viewModel.save(filename)
+                viewModel.resume()
+            },
+            onDenied = {
+                viewModel.permissionDenied()
+                viewModel.resume()
+            })
     }
 
     private fun setKillMode() {
