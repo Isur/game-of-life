@@ -16,4 +16,8 @@ class LoadViewModel(
         val loaded = fileManager.getContent(filename)
         boardManipulator.setBoard(loaded)
     }
+
+    fun delete(filename: String) {
+        fileManager.delete(filename)
+    }
 }

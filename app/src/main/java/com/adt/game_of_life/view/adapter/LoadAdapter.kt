@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.adt.game_of_life.R
 
 class LoadAdapter(
-    private val files: List<String>,
+    private var files: List<String>,
     private val onItemClick: (String) -> Unit
 ) : RecyclerView.Adapter<LoadViewHolder>() {
 
@@ -25,6 +25,12 @@ class LoadAdapter(
         val file = files[position]
         holder.nameTextView.text = file
         holder.setOnClickListener(onItemClick)
+    }
+
+    fun getElement(position: Int) = files[position]
+
+    fun setElements(elements: List<String>) {
+        files = elements
     }
 }
 

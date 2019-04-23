@@ -7,4 +7,5 @@ interface IFileManager {
     fun getFiles(): List<File>
     fun addFile(filename: String, content: Array<Array<Int?>>)
     fun getContent(filename: String): Array<Array<Int?>>
+    fun delete(filename: String)
 }

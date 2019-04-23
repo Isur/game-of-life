@@ -35,6 +35,11 @@ class FileManager(context: Application) : IFileManager {
         return ois.readObject() as Array<Array<Int?>>
     }
 
+    override fun delete(filename: String) {
+        val file = getFile(filename)
+        file.delete()
+    }
+
     private fun getFile(filename: String): File {
         return File(root.path, filename.addExtension())
     }
