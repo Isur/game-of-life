@@ -20,4 +20,10 @@ interface IDialogManager {
         onConfirmButton: () -> Unit,
         onNegativeButton: () -> Unit
     )
+
+    fun showColorPicker(
+        context: Context,
+        initialColor: Int,
+        onConfirmButton: (Int) -> Unit
+    )
 }

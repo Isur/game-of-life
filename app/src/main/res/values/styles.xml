@@ -34,7 +34,11 @@
     </style>
 
     <style name="defaultDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    </style>
 
+    <style name="colorPickerDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@color/colorPrimaryLight</item>
     </style>
 
     <style name="gameButtonStyle" parent="Base.Widget.AppCompat.ImageButton">
