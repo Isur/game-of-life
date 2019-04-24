@@ -89,8 +89,6 @@ class DialogManager(private val fileManager: IFileManager) : IDialogManager {
                 Timber.e(selectedColor.toString())
             }
             .setPositiveButton(ok) { _, selectedColor, _ ->
-                ok
-            ) { _, selectedColor, _ ->
                 onConfirmButton(selectedColor)
             }
             .setNegativeButton(cancel) { _, _ -> }
