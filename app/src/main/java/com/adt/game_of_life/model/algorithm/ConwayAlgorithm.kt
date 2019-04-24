@@ -9,7 +9,7 @@ open class ConwayAlgorithm constructor(
 ) : IConwayAlgorithm {
 
     private val gameBoardSize: Int = gameBoard.size
-    protected val conwayTransitionGameBoard: Array<Array<Int?>> = gameBoard.copy()
+    protected var conwayTransitionGameBoard: Array<Array<Int?>> = gameBoard.copy()
     override val boardProperties: BoardProperties
         get() = BoardProperties(gameBoard.size, gameBoard[0].size)
 
@@ -68,5 +68,5 @@ open class ConwayAlgorithm constructor(
         return liveNeighbouringCellsCounter
     }
 
-    private fun Array<Array<Int?>>.copy() = Array(gameBoardSize) { get(it).clone() }
+    protected fun Array<Array<Int?>>.copy() = Array(gameBoardSize) { get(it).clone() }
 }

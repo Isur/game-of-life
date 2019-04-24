@@ -1,6 +1,7 @@
 package com.adt.game_of_life.view.activity
 
 import abak.tr.com.boxedverticalseekbar.BoxedVertical
+import android.Manifest
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -11,21 +12,25 @@ import com.adt.game_of_life.databinding.ActivityGameBinding
 import com.adt.game_of_life.enums.InputMode
 import com.adt.game_of_life.model.bitmap.BitmapGenerator
 import com.adt.game_of_life.model.bitmap.IBitmapGenerator
+import com.adt.game_of_life.model.dialog.IDialogManager
 import com.adt.game_of_life.model.dto.BoardProperties
 import com.adt.game_of_life.model.dto.CellProperties
 import com.adt.game_of_life.model.dto.ViewProperties
 import com.adt.game_of_life.model.input.IScreenToBoardConverter
 import com.adt.game_of_life.model.input.ScreenToBoardConverter
+import com.adt.game_of_life.model.snackbar.ISnackBarManager
 import com.adt.game_of_life.util.containsPoint
 import com.adt.game_of_life.util.getBinding
 import com.adt.game_of_life.view.activity.contract.BackActivity
+import com.adt.game_of_life.view.activity.contract.IPermissionActivity
 import com.adt.game_of_life.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.activity_game.*
 import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import uk.co.senab.photoview.PhotoViewAttacher
 
-class GameActivity : BackActivity() {
+class GameActivity : BackActivity(), IPermissionActivity {
 
     private val viewModel: GameViewModel by viewModel()
     private lateinit var bitmapGenerator: IBitmapGenerator
@@ -34,10 +39,12 @@ class GameActivity : BackActivity() {
     private lateinit var boardProperties: BoardProperties
     private lateinit var cellProperties: CellProperties
     private lateinit var coordsConverter: IScreenToBoardConverter
+    private val dialogManager: IDialogManager by inject()
+    private val snackBarManager: ISnackBarManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = getBinding<ActivityGameBinding>(this, R.layout.activity_game)
+        val binding = getBinding<ActivityGameBinding>(R.layout.activity_game)
         binding.vm = viewModel
 
         setupView()
@@ -68,6 +75,8 @@ class GameActivity : BackActivity() {
         speedButton.setOnClickListener {
             speedSeekBar.visibility = if (speedSeekBar.visibility == View.INVISIBLE) View.VISIBLE else View.INVISIBLE
         }
+
+        saveButton.setOnClickListener { handleSaveDialog() }
     }
 
     private fun setObservers() {
@@ -84,6 +93,34 @@ class GameActivity : BackActivity() {
                 }
             }
         })
+
+        viewModel.snackBar.observe(this, Observer { snackBar ->
+            snackBar?.let {
+                snackBarManager.show(gameRootView, it)
+            }
+        })
+    }
+
+    private fun handleSaveDialog() {
+        viewModel.pause()
+        dialogManager.showSaveBoardDialog(this, { filename ->
+            handleWritePermission(filename)
+        }, {
+            viewModel.resume()
+        })
+    }
+
+    private fun handleWritePermission(filename: String) {
+        checkPermission(this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            onGranted = {
+                viewModel.save(filename)
+                viewModel.resume()
+            },
+            onDenied = {
+                viewModel.permissionDenied()
+                viewModel.resume()
+            })
     }
 
     private fun setKillMode() {

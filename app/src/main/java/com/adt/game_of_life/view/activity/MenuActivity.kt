@@ -16,7 +16,7 @@ class MenuActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = getBinding<ActivityMenuBinding>(this, R.layout.activity_menu)
+        val binding = getBinding<ActivityMenuBinding>(R.layout.activity_menu)
         binding.vm = viewModel
 
         setTitle(R.string.menu_activity_title)

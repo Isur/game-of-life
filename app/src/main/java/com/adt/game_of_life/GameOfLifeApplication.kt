@@ -4,6 +4,10 @@ import android.app.Application
 import com.adt.game_of_life.model.algorithm.IBoardManipulator
 import com.adt.game_of_life.model.algorithm.IConwayAlgorithm
 import com.adt.game_of_life.model.algorithm.ManipulatorConwayAlgorithm
+import com.adt.game_of_life.model.dialog.DialogManager
+import com.adt.game_of_life.model.dialog.IDialogManager
+import com.adt.game_of_life.model.file.FileManager
+import com.adt.game_of_life.model.file.IFileManager
 import com.adt.game_of_life.model.pref.IColorsPref
 import com.adt.game_of_life.model.pref.IGameRulesPref
 import com.adt.game_of_life.model.pref.SharedPrefAccess
@@ -14,6 +18,8 @@ import com.adt.game_of_life.model.setting.GameRules
 import com.adt.game_of_life.model.simulation.ILooper
 import com.adt.game_of_life.model.simulation.LooperImp
 import com.adt.game_of_life.model.simulation.SpeedModel
+import com.adt.game_of_life.model.snackbar.ISnackBarManager
+import com.adt.game_of_life.model.snackbar.SnackBarManager
 import com.adt.game_of_life.viewmodel.GameViewModel
 import com.adt.game_of_life.viewmodel.LoadViewModel
 import com.adt.game_of_life.viewmodel.MenuViewModel
@@ -53,9 +59,15 @@ class GameOfLifeApplication : Application() {
             single<ILooper> { LooperImp() }
             factory { SpeedModel(10000) }
 
+            single<IFileManager> { FileManager(this@GameOfLifeApplication) }
+
+            single<IDialogManager> { DialogManager(get()) }
+
+            single<ISnackBarManager> { SnackBarManager() }
+
             viewModel { MenuViewModel() }
-            viewModel { GameViewModel(get(), get(), get(), get()) }
-            viewModel { LoadViewModel() }
+            viewModel { GameViewModel(get(), get(), get(), get(), get()) }
+            viewModel { LoadViewModel(get(), get()) }
             viewModel { SettingsViewModel(get(), get()) }
         }
     }

@@ -29,6 +29,11 @@ class ManipulatorConwayAlgorithm(
         return setCellState(x, y, 0)
     }
 
+    override fun setBoard(board: Array<Array<Int?>>) {
+        gameBoard = board
+        conwayTransitionGameBoard = gameBoard.copy()
+    }
+
     private fun setCellState(x: Int, y: Int, state: Int): Boolean {
         return if (gameBoard[y][x] == state) {
             false
