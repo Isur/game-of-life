@@ -55,7 +55,13 @@ class GameOfLifeApplication : Application() {
             single { GameRules(get()) }
             single { GameColors(get()) }
 
-            single { Array(50) { Array<Int?>(50) { Random.nextInt(0, 2) } } }
+            single {
+                val boardPref: IBoardPref = get()
+                val height = boardPref.getHeight()
+                val width = boardPref.getWidth()
+                Array(height) { Array<Int?>(width) { Random.nextInt(0, 2) } }
+            }
+
             single {
                 ManipulatorConwayAlgorithm(get(), get())
             } bind IBoardManipulator::class bind IConwayAlgorithm::class
