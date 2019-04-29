@@ -84,14 +84,27 @@ class SettingsActivity : BackActivity() {
     }
 
     private fun setupView() {
+        setupColorPickers()
+        setupNumberPickers()
+        setupSeekBars()
+    }
+
+    private fun setupColorPickers() {
         aliveColorButton.setBackgroundColor(viewModel.gameColors.aliveColor)
         deadColorButton.setBackgroundColor(viewModel.gameColors.deadColor)
+    }
+
+    private fun setupNumberPickers() {
         check(aliveNumbers as ConstraintLayout, viewModel.gameRules.neighboursToBorn)
         check(deadNumbers as ConstraintLayout, viewModel.gameRules.neighboursToDie)
+    }
 
+    private fun setupSeekBars() {
         val size = viewModel.getCurrentSize
         widthSeekBar.progress = size.width
         heightSeekBar.progress = size.height
+        widthValueTextView.text = size.width.toString()
+        heightValueTextView.text = size.height.toString()
     }
 
     private fun check(numberPicker: ConstraintLayout, checked: List<Int>) {
