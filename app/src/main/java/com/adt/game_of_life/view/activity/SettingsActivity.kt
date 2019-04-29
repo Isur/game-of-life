@@ -64,11 +64,11 @@ class SettingsActivity : BackActivity() {
         }
 
         widthSeekBar.setListener(widthValueTextView) {
-            Timber.e(it.toString())
+            viewModel.setBoardWidth(it)
         }
 
         heightSeekBar.setListener(heightValueTextView) {
-            Timber.e(it.toString())
+            viewModel.setBoardHeight(it)
         }
     }
 
@@ -88,6 +88,10 @@ class SettingsActivity : BackActivity() {
         deadColorButton.setBackgroundColor(viewModel.gameColors.deadColor)
         check(aliveNumbers as ConstraintLayout, viewModel.gameRules.neighboursToBorn)
         check(deadNumbers as ConstraintLayout, viewModel.gameRules.neighboursToDie)
+
+        val size = viewModel.getCurrentSize
+        widthSeekBar.progress = size.width
+        heightSeekBar.progress = size.height
     }
 
     private fun check(numberPicker: ConstraintLayout, checked: List<Int>) {

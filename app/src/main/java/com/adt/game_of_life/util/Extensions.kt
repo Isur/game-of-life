@@ -31,6 +31,8 @@ fun View.containsPoint(x: Float, y: Float): Boolean {
 }
 
 fun SeekBar.setListener(textView: AppCompatTextView, offset: Int = 1, onStopTracking: (Int) -> Unit) {
+    textView.text = progress.toString()
+
     this.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             textView.text = (progress + offset).toString()

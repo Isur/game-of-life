@@ -8,6 +8,7 @@ import com.adt.game_of_life.model.dialog.DialogManager
 import com.adt.game_of_life.model.dialog.IDialogManager
 import com.adt.game_of_life.model.file.FileManager
 import com.adt.game_of_life.model.file.IFileManager
+import com.adt.game_of_life.model.pref.IBoardPref
 import com.adt.game_of_life.model.pref.IColorsPref
 import com.adt.game_of_life.model.pref.IGameRulesPref
 import com.adt.game_of_life.model.pref.SharedPrefAccess
@@ -46,7 +47,10 @@ class GameOfLifeApplication : Application() {
             single<IGameRulesSerializer> { GameRulesSerializer() }
             single {
                 SharedPrefAccess(this@GameOfLifeApplication, get())
-            } bind IGameRulesPref::class bind IColorsPref::class
+            }
+                .bind(IGameRulesPref::class)
+                .bind(IColorsPref::class)
+                .bind(IBoardPref::class)
 
             single { GameRules(get()) }
             single { GameColors(get()) }
@@ -60,15 +64,13 @@ class GameOfLifeApplication : Application() {
             factory { SpeedModel(10000) }
 
             single<IFileManager> { FileManager(this@GameOfLifeApplication) }
-
             single<IDialogManager> { DialogManager(get()) }
-
             single<ISnackBarManager> { SnackBarManager() }
 
             viewModel { MenuViewModel() }
             viewModel { GameViewModel(get(), get(), get(), get(), get()) }
             viewModel { LoadViewModel(get(), get()) }
-            viewModel { SettingsViewModel(get(), get()) }
+            viewModel { SettingsViewModel(get(), get(), get(), get()) }
         }
     }
 
