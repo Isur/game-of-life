@@ -34,6 +34,11 @@ class ManipulatorConwayAlgorithm(
         conwayTransitionGameBoard = gameBoard.copy()
     }
 
+    override fun resize(width: Int, height: Int) {
+        gameBoard = Array(height) { Array<Int?>(width) { 0 } }
+        conwayTransitionGameBoard = gameBoard.copy()
+    }
+
     private fun setCellState(x: Int, y: Int, state: Int): Boolean {
         return if (gameBoard[y][x] == state) {
             false

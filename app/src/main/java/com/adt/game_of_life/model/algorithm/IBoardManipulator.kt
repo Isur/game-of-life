@@ -6,4 +6,5 @@ interface IBoardManipulator {
     fun clear(): Array<Array<Int?>>
     fun randomize(): Array<Array<Int?>>
     fun setBoard(board: Array<Array<Int?>>)
+    fun resize(width: Int, height: Int)
 }

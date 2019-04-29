@@ -8,14 +8,18 @@ open class ConwayAlgorithm constructor(
     override var gameBoard: Array<Array<Int?>>
 ) : IConwayAlgorithm {
 
-    private val gameBoardSize: Int = gameBoard.size
+    private val gameBoardHeight: Int
+        get() = gameBoard.size
+    private val gameBoardWidth: Int
+        get() = gameBoard[0].size
+
     protected var conwayTransitionGameBoard: Array<Array<Int?>> = gameBoard.copy()
     override val boardProperties: BoardProperties
         get() = BoardProperties(gameBoard.size, gameBoard[0].size)
 
     override fun gameStep(): Array<Array<Int?>> {
-        for (x in 0..(gameBoardSize - 1)) {
-            for (y in 0..(gameBoardSize - 1)) {
+        for (x in 0 until gameBoardHeight) {
+            for (y in 0 until gameBoardWidth) {
                 updateCellLife(x, y)
             }
         }
@@ -43,30 +47,30 @@ open class ConwayAlgorithm constructor(
         if (x > 0 && gameBoard[x - 1][y] == 1) {
             liveNeighbouringCellsCounter += 1
         }
-        if (x < (gameBoardSize - 1) && gameBoard[x + 1][y] == 1) {
+        if (x < (gameBoardHeight - 1) && gameBoard[x + 1][y] == 1) {
             liveNeighbouringCellsCounter += 1
         }
         if (y > 0 && gameBoard[x][y - 1] == 1) {
             liveNeighbouringCellsCounter += 1
         }
-        if (y < (gameBoardSize - 1) && gameBoard[x][y + 1] == 1) {
+        if (y < (gameBoardWidth - 1) && gameBoard[x][y + 1] == 1) {
             liveNeighbouringCellsCounter += 1
         }
         if (x > 0 && y > 0 && gameBoard[x - 1][y - 1] == 1) {
             liveNeighbouringCellsCounter += 1
         }
-        if (x > 0 && y < (gameBoardSize - 1) && gameBoard[x - 1][y + 1] == 1) {
+        if (x > 0 && y < (gameBoardWidth - 1) && gameBoard[x - 1][y + 1] == 1) {
             liveNeighbouringCellsCounter += 1
         }
-        if (x < (gameBoardSize - 1) && y > 0 && gameBoard[x + 1][y - 1] == 1) {
+        if (x < (gameBoardHeight - 1) && y > 0 && gameBoard[x + 1][y - 1] == 1) {
             liveNeighbouringCellsCounter += 1
         }
-        if (x < (gameBoardSize - 1) && y < (gameBoardSize - 1) && gameBoard[x + 1][y + 1] == 1) {
+        if (x < (gameBoardHeight - 1) && y < (gameBoardWidth - 1) && gameBoard[x + 1][y + 1] == 1) {
             liveNeighbouringCellsCounter += 1
         }
 
         return liveNeighbouringCellsCounter
     }
 
-    protected fun Array<Array<Int?>>.copy() = Array(gameBoardSize) { get(it).clone() }
+    protected fun Array<Array<Int?>>.copy() = Array(gameBoardHeight) { get(it).clone() }
 }
