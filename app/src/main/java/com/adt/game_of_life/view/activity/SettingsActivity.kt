@@ -7,6 +7,7 @@ import com.adt.game_of_life.R
 import com.adt.game_of_life.databinding.ActivitySettingsBinding
 import com.adt.game_of_life.model.dialog.IDialogManager
 import com.adt.game_of_life.util.getBinding
+import com.adt.game_of_life.util.setListener
 import com.adt.game_of_life.view.activity.contract.BackActivity
 import com.adt.game_of_life.viewmodel.SettingsViewModel
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -60,6 +61,14 @@ class SettingsActivity : BackActivity() {
                 viewModel.gameRules.addNeighbourToDie(i)
             else
                 viewModel.gameRules.removeNeighbourToDie(i)
+        }
+
+        widthSeekBar.setListener(widthValueTextView) {
+            Timber.e(it.toString())
+        }
+
+        heightSeekBar.setListener(heightValueTextView) {
+            Timber.e(it.toString())
         }
     }
 
