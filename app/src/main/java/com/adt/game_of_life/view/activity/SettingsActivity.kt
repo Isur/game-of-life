@@ -5,11 +5,13 @@ import android.support.constraint.ConstraintLayout
 import android.widget.CheckBox
 import com.adt.game_of_life.R
 import com.adt.game_of_life.databinding.ActivitySettingsBinding
+import com.adt.game_of_life.model.dialog.IDialogManager
 import com.adt.game_of_life.util.getBinding
-import com.adt.game_of_life.util.showColorPicker
+import com.adt.game_of_life.util.setListener
 import com.adt.game_of_life.view.activity.contract.BackActivity
 import com.adt.game_of_life.viewmodel.SettingsViewModel
 import kotlinx.android.synthetic.main.activity_settings.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -17,10 +19,11 @@ import timber.log.Timber
 class SettingsActivity : BackActivity() {
 
     private val viewModel: SettingsViewModel by viewModel()
+    private val dialogManager: IDialogManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = getBinding<ActivitySettingsBinding>(this, R.layout.activity_settings)
+        val binding = getBinding<ActivitySettingsBinding>(R.layout.activity_settings)
         binding.vm = viewModel
 
         setTitle(R.string.settings_activity_title)
@@ -31,13 +34,15 @@ class SettingsActivity : BackActivity() {
 
     private fun setListeners() {
         aliveColorButton.setOnClickListener {
-            aliveColorButton.showColorPicker(this, viewModel.gameColors.aliveColor) {
+            dialogManager.showColorPicker(this, viewModel.gameColors.aliveColor) {
+                aliveColorButton.setBackgroundColor(it)
                 viewModel.gameColors.aliveColor = it
             }
         }
 
         deadColorButton.setOnClickListener {
-            deadColorButton.showColorPicker(this, viewModel.gameColors.deadColor) {
+            dialogManager.showColorPicker(this, viewModel.gameColors.deadColor) {
+                deadColorButton.setBackgroundColor(it)
                 viewModel.gameColors.deadColor = it
             }
         }
@@ -57,6 +62,14 @@ class SettingsActivity : BackActivity() {
             else
                 viewModel.gameRules.removeNeighbourToDie(i)
         }
+
+        widthSeekBar.setListener(widthValueTextView) {
+            viewModel.setBoardWidth(it)
+        }
+
+        heightSeekBar.setListener(heightValueTextView) {
+            viewModel.setBoardHeight(it)
+        }
     }
 
     private fun setListeners(numberPicker: ConstraintLayout, listener: (Boolean, Int) -> Unit) {
@@ -71,10 +84,27 @@ class SettingsActivity : BackActivity() {
     }
 
     private fun setupView() {
+        setupColorPickers()
+        setupNumberPickers()
+        setupSeekBars()
+    }
+
+    private fun setupColorPickers() {
         aliveColorButton.setBackgroundColor(viewModel.gameColors.aliveColor)
         deadColorButton.setBackgroundColor(viewModel.gameColors.deadColor)
+    }
+
+    private fun setupNumberPickers() {
         check(aliveNumbers as ConstraintLayout, viewModel.gameRules.neighboursToBorn)
         check(deadNumbers as ConstraintLayout, viewModel.gameRules.neighboursToDie)
+    }
+
+    private fun setupSeekBars() {
+        val size = viewModel.getCurrentSize
+        widthSeekBar.progress = size.width
+        heightSeekBar.progress = size.height
+        widthValueTextView.text = size.width.toString()
+        heightValueTextView.text = size.height.toString()
     }
 
     private fun check(numberPicker: ConstraintLayout, checked: List<Int>) {

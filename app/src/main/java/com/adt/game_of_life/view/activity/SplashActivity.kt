@@ -15,6 +15,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        setupTransition()
+    }
+
+    private fun setupTransition() {
         Handler().postDelayed({
             val model = ActivityStartModel(MenuActivity::class.java, Bundle())
             startActivity(model)

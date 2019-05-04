@@ -13,11 +13,12 @@ android {
     }
     defaultConfig {
         applicationId "com.adt.game_of_life"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -37,6 +38,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // Input dialog
+    implementation 'com.yarolegovich:lovely-dialog:1.1.0'
+
+    // Vertical SeekBar
+    implementation 'com.github.alpbak:BoxedVerticalSeekBar:1.1.1'
+
+    // Zooming
+    implementation 'com.github.chrisbanes:PhotoView:1.2.6'
 
     // Color picker
     implementation 'com.github.QuadFlask:colorpicker:0.0.13'
