@@ -71,7 +71,7 @@
                 android:layout_margin="@dimen/game_button_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/speedButton"
-                app:layout_constraintEnd_toStartOf="@id/saveButton"
+                app:layout_constraintEnd_toStartOf="@id/clearButton"
                 style="@style/gameButtonStyle"
                 app:srcCompat="@drawable/ic_create_white_24dp"
                 android:onClick="@{() -> vm.switchInputMode()}"/>
@@ -96,7 +96,7 @@
                 android:layout_margin="@dimen/game_button_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/clearButton"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/saveButton"
                 style="@style/gameButtonStyle"
                 app:srcCompat="@drawable/ic_refresh_white_24dp"
                 android:onClick="@{() -> vm.randomize()}"
@@ -108,7 +108,7 @@
                 android:layout_height="@dimen/game_button_height"
                 android:layout_margin="@dimen/game_button_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/swapImageView"
+                app:layout_constraintStart_toEndOf="@id/randomizeButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 style="@style/gameButtonStyle"
                 app:srcCompat="@drawable/ic_save_white_24dp"/>
