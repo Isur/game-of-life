@@ -75,7 +75,7 @@ class GameOfLifeApplication : Application() {
 
             viewModel { MenuViewModel() }
             viewModel { GameViewModel(get(), get(), get(), get(), get()) }
-            viewModel { LoadViewModel(get(), get()) }
+            viewModel { LoadViewModel(get(), get(), get()) }
             viewModel { SettingsViewModel(get(), get(), get(), get()) }
         }
     }
