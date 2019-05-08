@@ -1,11 +1,13 @@
 package com.adt.game_of_life.model.pref.serializer
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import kotlin.test.*
-import org.junit.Assert.*
+import kotlin.test.assertFails
 
 class GameRulesSerializerTest {
+
     private val serializer = GameRulesSerializer()
+
     @Test
     fun serialize() {
         val toSerialize = listOf(1, 2, 3)
