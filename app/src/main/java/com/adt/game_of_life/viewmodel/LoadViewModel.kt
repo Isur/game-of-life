@@ -25,10 +25,10 @@ class LoadViewModel(
     fun load(filename: String) {
         val loaded = fileManager.getContent(filename)
         boardManipulator.setBoard(loaded)
-
+      
         boardPref.setHeight(loaded.size)
         boardPref.setWidth(loaded[0].size)
-
+      
         snackBar.value = SnackBarModel(R.string.save_loaded, R.color.success)
     }
 
