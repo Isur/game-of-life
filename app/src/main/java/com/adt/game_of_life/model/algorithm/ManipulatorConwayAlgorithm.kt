@@ -56,7 +56,7 @@ class ManipulatorConwayAlgorithm(
     private fun forEachCell(callback: (Int, Int) -> Unit) {
         for (i in 0 until gameBoard.size) {
             for (j in 0 until gameBoard[0].size) {
-                callback(i, j)
+                callback(j, i)
             }
         }
     }
