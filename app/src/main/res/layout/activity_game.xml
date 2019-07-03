@@ -86,8 +86,7 @@
                 app:layout_constraintEnd_toStartOf="@id/randomizeButton"
                 style="@style/gameButtonStyle"
                 app:srcCompat="@drawable/ic_clear_white_24dp"
-                android:onClick="@{() -> vm.clear()}"
-                android:visibility="gone"/>
+                android:onClick="@{() -> vm.clear()}"/>
 
         <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/randomizeButton"
@@ -99,8 +98,7 @@
                 app:layout_constraintEnd_toEndOf="@id/saveButton"
                 style="@style/gameButtonStyle"
                 app:srcCompat="@drawable/ic_refresh_white_24dp"
-                android:onClick="@{() -> vm.randomize()}"
-                android:visibility="gone"/>
+                android:onClick="@{() -> vm.randomize()}"/>
 
         <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/saveButton"
